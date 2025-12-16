@@ -1,0 +1,89 @@
+.collection-container {
+  padding: 20px;
+}
+
+div p {
+  padding-bottom: 16px;
+}
+
+.collection-title{
+  text-align: center;
+  font-size: 64px;
+  background: linear-gradient(90deg, #ff8a00, #e52e71);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.select-navbar{
+  display: flex;
+  gap: 50px;
+  margin-bottom: 30px;
+}
+
+.gender-select {
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.gender-select label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.gender-select select {
+  padding: 6px 12px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.brand-select select {
+  padding: 6px 12px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Button grid for brand buttons */
+.button-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Individual brand buttons */
+.brand-button {
+  height: 20vh;
+  width: 30vh;
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.brand-button:hover {
+  transform: scale(1.1);
+}
+
+.brand-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 0;
+}
+
+.brand-name {
+  position: relative;
+  z-index: 1;
+}

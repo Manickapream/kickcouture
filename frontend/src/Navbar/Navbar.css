@@ -1,0 +1,127 @@
+/* General Navbar container */
+/* .navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 15px 6%;
+  position: relative;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+} */
+
+body {
+  padding-top: 70px; /* Adjust to navbar height */
+}
+.navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 15px 6%;
+  position: fixed; /* Stay fixed on scroll */
+  top: 0; /* Stick to top */
+  left: 0;
+  z-index: 1000; /* Stay above other elements */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Logo styles */
+.navbar .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+}
+
+.logo span {
+  color: #e63946;
+}
+
+/* Navigation links container */
+.nav-links {
+  flex: 1;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Individual nav items */
+.nav-links li {
+  margin: 0 20px;
+  position: relative;
+}
+
+/* Nav links */
+.nav-links li a {
+  text-decoration: none;
+  color: #000;
+  font-size: 18px;
+  padding: 8px 12px;
+  transition: color 0.3s ease;
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+  -ms-user-drag: none;
+}
+
+.nav-links li a:hover {
+  color: #e63946;
+}
+
+/* Login dropdown item */
+.login-item {
+  cursor: pointer;
+  text-decoration: none;
+  color: #e63946;
+  font-size: 18px;
+  padding: 8px 12px;
+  transition: color 0.3s ease;
+}
+
+/* Dropdown menu */
+.dropdown {
+  /* display: none; */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.6s ease 0.6s;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #e63946;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+  z-index: 1000;
+  min-width: 150px;
+}
+
+/* Show dropdown on hover */
+.login-item:hover .dropdown {
+  /* display: block; */
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s, 0s;
+}
+
+/* Dropdown links */
+.dropdown a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #000;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown a:hover {
+  background-color: #f4f4f4;
+  color: #e63946;
+}

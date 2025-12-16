@@ -1,0 +1,255 @@
+.collection-container {
+  padding: 20px;
+}
+
+div p {
+  padding-bottom: 16px;
+}
+
+.collection-title{
+  text-align: center;
+  font-size: 64px;
+  background: linear-gradient(90deg, #ff8a00, #e52e71);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.select-navbar{
+  display: flex;
+  gap: 50px;
+  margin-bottom: 30px;
+}
+
+.gender-select {
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.gender-select label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.gender-select select {
+  padding: 6px 12px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.brand-select select {
+  padding: 6px 12px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Button grid for brand buttons */
+.button-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Individual brand buttons */
+.brand-button {
+  height: 20vh;
+  width: 30vh;
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.brand-button:hover {
+  transform: scale(1.1);
+}
+
+.brand-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 0;
+}
+
+.brand-name {
+  position: relative;
+  z-index: 1;
+}
+
+/* payment css */
+.buy-now-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 30px 25px;
+  border-radius: 16px;
+  width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.modal-content img {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+
+.modal-content label {
+  display: block;
+  font-weight: 600;
+  text-align: left;
+  margin: 6px 0 3px;
+  color: #555;
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.quantity-control button {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: none;
+  background: #333;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.quantity-control button:hover {
+  background: #555;
+}
+
+.modal-content h3 {
+  margin: 10px 0;
+  color: #222;
+  font-weight: bold;
+}
+
+/* 🟩 Buttons in column layout */
+.modal-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.payment-btn,
+.cancel-btn {
+  width: 100%;
+  margin-left: 10px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: 0.3s;
+}
+
+.payment-btn {
+  background-color: #27ae60;
+  color: white;
+}
+
+.payment-btn:hover {
+  background-color: #219150;
+}
+
+.cancel-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Fade-in animation for modal */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image-container img {
+  width: 100%;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.blurred {
+  filter: brightness(0.6) blur(1px);
+}
+
+.soldout-overlay {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 0, 0, 0.85);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.sold-out-btn {
+  background-color: #999;
+  cursor: not-allowed;
+  color: white;
+}

@@ -1,0 +1,66 @@
+.admindashboard {
+  width: 80%;
+  margin: 30px auto;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard-header {
+  border: 1px solid #0073e6;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.dashboard-stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  border: 1px solid #0073e6;
+  padding: 20px 40px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.stat-card span {
+  font-weight: bold;
+  margin-left: 8px;
+  color: #e63946;
+}
+
+.stat-card:hover {
+  background: #f0f8ff;
+}
+
+.dashboard-controls {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.control-card {
+  border: 1px solid #0073e6;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.control-card a {
+  text-decoration: none;
+  color: #000;
+}
+
+.control-card:hover {
+  background: #e6f2ff;
+  transform: scale(1.05);
+}

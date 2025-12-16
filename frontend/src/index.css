@@ -1,0 +1,12 @@
+@import "tailwindcss";
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+/* .container{
+    width: 210vh;
+    min-height: 100vh;
+    background-color: #ced8ff;
+} */

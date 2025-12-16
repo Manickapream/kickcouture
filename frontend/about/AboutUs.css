@@ -1,0 +1,77 @@
+.about-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-hero {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: linear-gradient(135deg, #f8f8f8, #fff);
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+.about-hero h1 {
+  font-size: 3rem;
+  color: #111;
+  margin-bottom: 0.5rem;
+}
+
+.about-hero h1 span {
+  color: #ff4d4d;
+}
+
+.about-hero p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.about-content {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 3rem;
+  gap: 2rem;
+  align-items: center;
+}
+
+.about-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.about-text h2 {
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.about-text p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.about-text ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+.about-text ul li {
+  margin: 0.5rem 0;
+  font-weight: 500;
+}
+
+.about-image {
+  flex: 1;
+  min-width: 300px;
+  text-align: center;
+}
+
+.about-image img {
+  max-width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
