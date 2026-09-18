@@ -3,10 +3,81 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 /* .container{
     width: 210vh;
     min-height: 100vh;
     background-color: #ced8ff;
 } */
+
+/* ===========================
+   GLOBAL PAGE CARD LAYOUT
+   =========================== */
+.page-wrapper {
+  background-color: #f0f2f5;
+  padding: 2rem 3%;
+  min-height: 80vh;
+}
+
+.page-card {
+  background: linear-gradient(135deg, #ffffff 0%, #fff8f5 60%, #fff 100%);
+  border-radius: 28px;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.04),
+    0 20px 60px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  padding: 2rem;
+}
+
+/* Subtle decorative circles inside card */
+.page-card::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 69, 0, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.page-card::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  left: -60px;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(255, 140, 0, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* ===========================
+   RESPONSIVE GLOBAL LAYOUT
+   =========================== */
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: 1rem 3%;
+  }
+  .page-card {
+    padding: 1rem;
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-wrapper {
+    padding: 0.5rem 2%;
+  }
+  .page-card {
+    padding: 0.5rem;
+    border-radius: 16px;
+  }
+}

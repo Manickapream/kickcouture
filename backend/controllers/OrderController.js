@@ -54,8 +54,19 @@ exports.getOrders = async (req, res) => {
   }
 };
 
-
-
+exports.getCartOrders = async (req, res) => {
+  try {
+    const { email } = req.params;
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+    const orders = await OrderModel.find({ email, status: "cart" }).populate("productId");
+    return res.status(200).json({ orders });
+  } catch (error) {
+    console.error("Error fetching cart orders:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 exports.deleteOrder = async (req, res) => {
   try {

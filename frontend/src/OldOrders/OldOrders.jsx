@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './OldOrders.css';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
+import api from "../api/axiosConfig";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 export const OldOrders = () => {
   const navigate = useNavigate();
@@ -14,10 +16,9 @@ export const OldOrders = () => {
   // Fetch all orders and filter by current user's email
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/order/all");
       const email = localStorage.getItem("userEmail");
-      const filteredOrders = res.data.orders.filter(order => order.email === email);
-      const oldOrders = filteredOrders.filter(order => order.status !== "cart");
+      const res = await api.get(`/api/order?email=${email}`);
+      const oldOrders = res.data.orders.filter(order => order.status !== "cart");
       setProducts(oldOrders);
     } catch (err) {
       console.error("Error fetching products", err);
@@ -31,7 +32,7 @@ export const OldOrders = () => {
     return;
   }
   try {
-    await axios.delete(`http://localhost:5000/api/order/${orderId}`);
+    await api.delete(`/api/order/${orderId}`);
     alert("Order deleted successfully!");
     fetchProducts();
   } catch (err) {
@@ -44,7 +45,7 @@ export const OldOrders = () => {
   // Add product back to cart
   const handleAddToCart = async (product) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/order/add", {
+      const res = await api.post("/api/order/add", {
         _id: product._id,
         email: product.email,
         productId: product.productId,
@@ -60,7 +61,7 @@ export const OldOrders = () => {
   // Remove from cart
   const handleRemoveFromCart = async (product) => {
     try {
-      await axios.delete(`http://localhost:5000/api/order/${product._id}`);
+      await api.delete(`/api/order/${product._id}`);
       fetchProducts();
     } catch (err) {
       console.error("Error removing from cart", err);
@@ -87,7 +88,7 @@ export const OldOrders = () => {
           const product = order.productId;
           return (
             <div className="product-card" key={order._id}>
-              <img src={"http://localhost:5000/" + product.image} alt={product.title} />
+              <img src={`${API_BASE}/` + product.image} alt={product.title} />
               <div className="product-info">
                 {/* <h5>{order._id}</h5> */}
                 <h1>{product.name}</h1>

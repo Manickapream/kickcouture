@@ -14,7 +14,9 @@ import UserLogin from './User/UserLogin';
 import AboutUs from '../about/AboutUs';
 import { Cart } from './Cart/Cart';
 import { Payment } from './pages/Payment';
-import Inventory from './Admin/Inventory';
+import Inventory from "./Admin/inventory";
+import { OldOrders } from "./OldOrders/OldOrders";
+import Footer from "./Footer/Footer";
 
 
 // ✅ Import Product Management Components
@@ -79,6 +81,7 @@ const App = () => {
         <Route path="/admin/*" element={<Dashboard />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/old-orders" element={<OldOrders />} />
         <Route path="/report" element={<Report />} />
 
         {/* ✅ Product Management Routes */}
@@ -89,7 +92,7 @@ const App = () => {
         <Route path="/manage-orders" element={<ManageOrders />} />
         <Route path="/inventory" element={<Inventory />} />
       </Routes>
-      
+      <Footer />
     </Router>
   );
 };

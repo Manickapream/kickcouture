@@ -114,4 +114,12 @@
   .payment-actions button {
     width: 100%;
   }
+
+  .payment-container {
+    padding: 15px;
+  }
+  
+  .payment-box {
+    padding: 20px 15px;
+  }
 }

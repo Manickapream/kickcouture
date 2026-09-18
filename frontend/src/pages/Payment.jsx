@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { jsPDF } from "jspdf";
-import axios from "axios";
+import api from "../api/axiosConfig";
 import "./Payment.css";
 
 export const Payment = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { cartItems = [], totalAmount = 0 } = location.state || {};
+
+  const rawCartItems = location.state?.cartItems || [];
+  const singleProduct = location.state?.product;
+  const singleQuantity = location.state?.quantity || 1;
+
+  const cartItems = singleProduct
+    ? [{ productId: singleProduct, quantity: singleQuantity }]
+    : rawCartItems;
+
+  const calculatedTotalAmount = location.state?.totalAmount ||
+    cartItems.reduce((acc, item) => acc + item.productId.price * item.quantity, 0);
 
   const [form, setForm] = useState({
     name: "",
-    email: "",
+    email: localStorage.getItem("userEmail") || "",
     address: "",
     phone: "",
     paymentType: "",
@@ -89,7 +99,7 @@ export const Payment = () => {
 
     y += 10;
     doc.setFont("helvetica", "bold");
-    doc.text(`Grand Total: ₹${totalAmount}`, 20, y);
+    doc.text(`Grand Total: ₹${calculatedTotalAmount}`, 20, y);
 
     y += 20;
     doc.setFont("helvetica", "italic");
@@ -103,7 +113,7 @@ export const Payment = () => {
     try {
       const email = form.email;
       for (const item of cartItems) {
-        await axios.post("http://localhost:5000/api/order/add", {
+        await api.post("/api/order/add", {
           email,
           productId: item.productId._id,
           quantity: item.quantity,
@@ -117,24 +127,34 @@ export const Payment = () => {
     }
   };
 
-  // ✅ Clear Cart after successful purchase
+  // ✅ Clear Cart after successful purchase (conditionally)
   const clearCartAfterPurchase = async () => {
     try {
       const email = form.email;
-      const res = await axios.get("http://localhost:5000/api/order/all");
-      const cartOrders = res.data.orders.filter(
-        (order) => order.email === email && order.status === "cart"
-      );
+      const isCartCheckout = !!location.state?.cartItems;
+      const singleCartOrderId = location.state?.cartOrderId;
 
-      for (const order of cartOrders) {
-        await axios.delete(`http://localhost:5000/api/order/${order._id}`);
+      if (isCartCheckout) {
+        // Clearing full cart
+        const res = await api.get(`/api/order/cart/${email}`);
+        const cartOrders = res.data.orders;
+        for (const order of cartOrders) {
+          await api.delete(`/api/order/${order._id}`);
+        }
+        console.log("Full cart cleared after purchase.");
+      } else if (singleCartOrderId) {
+        // Clearing just the purchased cart item
+        await api.delete(`/api/order/${singleCartOrderId}`);
+        console.log(`Removed single item from cart after purchase.`);
       }
-
-      console.log("Cart cleared after purchase.");
+      // If neither, it's a direct Buy Now from catalog, so don't touch the cart!
     } catch (err) {
       console.error("Error clearing cart:", err);
     }
   };
+
+  const [processing, setProcessing] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   // ✅ Submit Payment
   const handleSubmit = async (e) => {
@@ -146,31 +166,48 @@ export const Payment = () => {
       return;
     }
 
-    if (form.paymentType === "Offline") {
+    setProcessing(true);
+
+    setTimeout(async () => {
+      setProcessing(false);
+      setSuccess(true);
       await saveOrderToDatabase();
       await clearCartAfterPurchase(); // 🧹 clear cart
       handleGenerateBill();
-      alert("Purchase successful (Offline).");
-      navigate("/UserProfile");
-    } else {
-      alert(`Processing ${form.onlineMode} payment...`);
-      setTimeout(async () => {
-        alert("Payment successful!");
-        await saveOrderToDatabase();
-        await clearCartAfterPurchase(); // 🧹 clear cart
-        handleGenerateBill();
+
+      setTimeout(() => {
         navigate("/UserProfile");
-      }, 1500);
-    }
+      }, 2000);
+    }, 2000);
   };
 
-  const total = cartItems.reduce(
-    (acc, item) => acc + item.productId.price * item.quantity,
-    0
-  );
+  // We use calculatedTotalAmount instead of calculating it again
+  const total = calculatedTotalAmount;
 
   return (
-    <div className="payment-container">
+    <div className="payment-container relative">
+      {/* Dummy Processing Modal */}
+      {processing && (
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 rounded-lg">
+          <div className="bg-white p-8 rounded-xl shadow-2xl flex flex-col items-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mb-4"></div>
+            <h2 className="text-xl font-bold">Processing Payment...</h2>
+            <p className="text-gray-500 text-sm mt-2">Please do not close this window</p>
+          </div>
+        </div>
+      )}
+
+      {/* Dummy Success Modal */}
+      {success && (
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 rounded-lg">
+          <div className="bg-white p-8 rounded-xl shadow-2xl flex flex-col items-center text-green-600">
+            <div className="text-5xl mb-4">✅</div>
+            <h2 className="text-2xl font-bold">Payment Successful!</h2>
+            <p className="text-gray-600 text-sm mt-2">Redirecting to profile...</p>
+          </div>
+        </div>
+      )}
+
       <h2>Kick Couture - Checkout</h2>
 
       <div className="payment-box">
@@ -182,7 +219,7 @@ export const Payment = () => {
 
           <div className="input-group">
             <label>Email:</label>
-            <input type="email" name="email" required onChange={handleChange} />
+            <input type="email" name="email" value={form.email} disabled required onChange={handleChange} />
           </div>
 
           <div className="input-group">

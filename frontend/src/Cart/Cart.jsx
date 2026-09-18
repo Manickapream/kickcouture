@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Cart.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axiosConfig";
+import { FaShoppingCart, FaMoneyBillWave } from 'react-icons/fa';
 
 export const Cart = () => {
   const navigate = useNavigate();
@@ -13,12 +14,9 @@ export const Cart = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/order/all");
       const email = localStorage.getItem("userEmail");
-      const filter = res.data.orders.filter(
-        (order) => order.email === email && order.status === "cart"
-      );
-      setProducts(filter);
+      const res = await api.get(`/api/order/cart/${email}`);
+      setProducts(res.data.orders || []);
     } catch (err) {
       console.error("Error fetching products", err);
     }
@@ -26,7 +24,7 @@ export const Cart = () => {
 
   const handleRemoveFromCart = async (product) => {
     try {
-      await axios.delete(`http://localhost:5000/api/order/${product._id}`);
+      await api.delete(`/api/order/${product._id}`);
       fetchProducts();
     } catch (err) {
       console.error("Error removing from cart", err);
@@ -34,7 +32,7 @@ export const Cart = () => {
   };
 
   const totalPrice = () => {
-    return products.reduce((total, product) => total + product.productId.price, 0);
+    return products.reduce((total, product) => total + (product.productId?.price || 0), 0);
   };
 
   const handleBuyAll = () => {
@@ -47,54 +45,65 @@ export const Cart = () => {
   };
 
   return (
-    <div className="collection-container">
-      <h2 className="collection-title">Cart</h2>
+    <div className="page-wrapper">
+      <div className="page-card">
+        <div className="cart-container">
+      <h2 className="cart-title">Your Cart</h2>
 
-      <div className="select-navbar">
-        <div className="gender-select">
-          <label>Total Price : ₹ {totalPrice()} </label>
+      <div className="cart-summary">
+        <div className="cart-total">
+          Total: ₹ {totalPrice()}
         </div>
 
-        <div className="brand-select">
-          <button
-            onClick={handleBuyAll}
-            className="buy-all-button"
-            style={{
-              backgroundColor: "black",
-              color: "white",
-              borderRadius: "8px",
-              padding: "8px 16px",
-              cursor: "pointer",
-            }}
-          >
-            Buy All
+        {products.length > 0 && (
+          <button onClick={handleBuyAll} className="buy-all-btn">
+            Buy All <FaMoneyBillWave />
           </button>
-        </div>
+        )}
       </div>
 
-      <section className="best-selling">
-        {products.map((order) => {
-          const product = order.productId;
-          return (
-            <div className="product-card" key={order._id}>
-              <img
-                src={"http://localhost:5000/" + product.image}
-                alt={product.name}
-              />
-              <div className="product-info">
-                <h1>{product.name}</h1>
-                <h2>size {product.size}</h2>
-                <h3>₹ {product.price}</h3>
-                <p>brand {product.brand}</p>
-                <p>{product.description}</p>
-                <button onClick={() => handleRemoveFromCart(order)}>
-                  Remove from Cart 🛒
-                </button>
+      {products.length === 0 ? (
+        <div className="empty-cart">
+          <p>Your cart is empty.</p>
+          <button onClick={() => navigate('/collection')} className="buy-all-btn" style={{ margin: '20px auto' }}>
+            Continue Shopping
+          </button>
+        </div>
+      ) : (
+        <section className="cart-items">
+          {products.map((order) => {
+            const product = order.productId;
+            if (!product) return null;
+            return (
+              <div className="cart-item" key={order._id}>
+                <div className="cart-item-image">
+                  <img src={"http://localhost:5000/" + product.image} alt={product.name} />
+                </div>
+                <div className="cart-item-details">
+                  <h1>{product.name}</h1>
+                  <h2>Size {product.size}</h2>
+                  <h3>₹ {product.price}</h3>
+                  <p>{product.brand} - {product.description}</p>
+                  
+                  <div className="cart-item-actions">
+                    <button className="remove-btn" onClick={() => handleRemoveFromCart(order)}>
+                      Remove <FaShoppingCart />
+                    </button>
+                    <button 
+                      className="pay-now-btn"
+                      onClick={() => navigate("/payment", { state: { product: product, quantity: 1, cartOrderId: order._id } })}
+                    >
+                      Pay Now <FaMoneyBillWave />
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </section>
+            );
+          })}
+        </section>
+        )}
+      </div>
     </div>
+  </div>
   );
 };

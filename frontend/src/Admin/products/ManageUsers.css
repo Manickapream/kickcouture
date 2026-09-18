@@ -88,6 +88,9 @@
   .form-grid {
     grid-template-columns: 1fr 1fr;
   }
+  .button-group {
+    grid-column: span 2;
+  }
 }
 
 .input-label {
@@ -116,7 +119,6 @@
   margin-top: 16px;
   display: flex;
   gap: 16px;
-  grid-column: span 2;
 }
 
 .submit-button {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './UserLogin.css';
-import axios from 'axios';
+import api from '../api/axiosConfig';
 
 const UserLogin = ({ onLogin }) => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const UserLogin = ({ onLogin }) => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/user/signup", {
+      const res = await api.post("/api/user/signup", {
         name,
         email: signupEmail,
         password: signupPassword,
@@ -36,7 +36,7 @@ const UserLogin = ({ onLogin }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/user/login", {
+      const res = await api.post("/api/user/login", {
         email,
         password,
       });

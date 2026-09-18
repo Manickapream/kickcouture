@@ -77,7 +77,6 @@ function ManageUsers() {
                   <h1>{product.name}</h1>
                   <h2>{product.email}</h2>
                   <p>{product.password}</p>
-                  {/* <button onClick={() => handleAddToCart(product)}>Add to Cart 🛒</button> */}
                   <button onClick={() => handleDelete(product._id)}>Delete</button>
                 </div>
               </div>

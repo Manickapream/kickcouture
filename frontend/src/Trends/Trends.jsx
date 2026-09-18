@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './BestSelling.css';
+import './Trends.css';
 import api from "../api/axiosConfig";
 import { FaShoppingCart, FaChevronLeft, FaChevronRight, FaCheckCircle } from 'react-icons/fa';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
-const BestSelling = ({ isLoggedIn }) => {
+const Trends = ({ isLoggedIn }) => {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
   const [products, setProducts] = useState([]);
@@ -21,7 +21,9 @@ const BestSelling = ({ isLoggedIn }) => {
   const fetchProducts = async () => {
     try {
       const res = await api.get("/api/product/get");
-      setProducts(res.data.data); // All products
+      // Slicing differently to differentiate from BestSelling for now
+      // Or you can create a specific endpoint for trending items.
+      setProducts(res.data.data.slice(0, 8).reverse()); 
     } catch (err) {
       console.error("Error fetching products", err);
     }
@@ -69,7 +71,7 @@ const BestSelling = ({ isLoggedIn }) => {
   };
 
   return (
-    <div className="scroll-section">
+    <div className="trends-scroll-section">
       {/* Toast Notification */}
       {toast && (
         <div className={`toast-notif ${toast.type === 'error' ? 'toast-error' : 'toast-success'}`}>
@@ -88,26 +90,26 @@ const BestSelling = ({ isLoggedIn }) => {
 
       {/* Horizontal Scroll Track */}
       <div
-        className="products-scroll-track"
+        className="trends-products-scroll-track"
         ref={scrollRef}
         onScroll={handleScroll}
       >
         {products.map((product) => (
-          <div className="product-card" key={product._id}>
-            <div className="card-image-wrapper">
+          <div className="trends-product-card" key={product._id}>
+            <div className="trends-card-image-wrapper">
               <img src={`${API_BASE}/` + product.image} alt={product.name} />
             </div>
-            <div className="product-info">
-              <div className="product-header">
-                <h1 className="product-title">{product.name}</h1>
-                <span className="product-size">Size {product.size}</span>
+            <div className="trends-product-info">
+              <div className="trends-product-header">
+                <h1 className="trends-product-title">{product.name}</h1>
+                <span className="trends-product-size">Size {product.size}</span>
               </div>
-              <h3 className="product-price">₹{product.price}</h3>
-              <div className="product-meta">
-                <span className="brand-badge">{product.brand}</span>
+              <h3 className="trends-product-price">₹{product.price}</h3>
+              <div className="trends-product-meta">
+                <span className="trends-brand-badge">{product.brand}</span>
               </div>
-              <p className="product-desc">{product.description}</p>
-              <div className="product-actions">
+              <p className="trends-product-desc">{product.description}</p>
+              <div className="trends-product-actions">
                 <button onClick={() => handleAddToCart(product)} className="btn-cart">
                   <FaShoppingCart style={{ marginRight: '6px' }} /> Add to Cart
                 </button>
@@ -132,4 +134,4 @@ const BestSelling = ({ isLoggedIn }) => {
   );
 };
 
-export default BestSelling;
+export default Trends;
