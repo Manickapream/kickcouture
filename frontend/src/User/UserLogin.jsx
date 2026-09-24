@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './UserLogin.css';
-import axios from 'axios';
+import api from '../api/axiosConfig';
+import { useAuth } from '../context/AuthContext';
 
-const UserLogin = ({ onLogin }) => {
+const UserLogin = () => {
   const navigate = useNavigate();
+  const { loginUser, logoutAdmin, logoutVendor } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
 
   // Login State
@@ -20,7 +22,7 @@ const UserLogin = ({ onLogin }) => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/user/signup", {
+      const res = await api.post("/api/user/signup", {
         name,
         email: signupEmail,
         password: signupPassword,
@@ -32,17 +34,14 @@ const UserLogin = ({ onLogin }) => {
     }
   };
 
-  // Login handler
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/user/login", {
-        email,
-        password,
-      });
-      alert(res.data.message);
-      onLogin(email); // ⬅️ Inform App that user is logged in
-      navigate("/UserProfile");
+      const res = await api.post("/api/user/login", { email, password });
+      logoutAdmin();
+      logoutVendor();
+      loginUser(res.data.token, res.data.user); // store JWT in context + localStorage
+      navigate("/");
     } catch (err) {
       alert(err.response?.data?.message || "Login error");
     }

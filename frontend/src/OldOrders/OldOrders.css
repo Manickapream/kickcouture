@@ -1,89 +1,297 @@
-.collection-container {
-  padding: 20px;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ─── Page wrapper ──────────────────────────────────────────────────────────── */
+.oo-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fb 0%, #eef0f5 100%);
+  font-family: 'Inter', sans-serif;
+  padding: 40px 20px;
 }
 
-div p {
-  padding-bottom: 16px;
+/* ─── Header ────────────────────────────────────────────────────────────────── */
+.oo-header {
+  max-width: 860px;
+  margin: 0 auto 32px;
 }
 
-.collection-title{
-  text-align: center;
-  font-size: 64px;
-  background: linear-gradient(90deg, #ff8a00, #e52e71);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.oo-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #111;
+  margin: 0 0 6px;
 }
-.select-navbar{
+
+.oo-subtitle {
+  font-size: 0.9rem;
+  color: #888;
+  margin: 0;
+}
+
+/* ─── Loading ───────────────────────────────────────────────────────────────── */
+.oo-loading {
   display: flex;
-  gap: 50px;
-  margin-bottom: 30px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 16px;
+  font-family: 'Inter', sans-serif;
+  color: #888;
 }
 
-.gender-select {
-  margin-bottom: 20px;
-  font-size: 1rem;
+.oo-spinner {
+  width: 44px;
+  height: 44px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: oo-spin 0.8s linear infinite;
 }
 
-.gender-select label {
-  margin-right: 10px;
-  font-weight: bold;
+@keyframes oo-spin {
+  to { transform: rotate(360deg); }
 }
 
-.gender-select select {
-  padding: 6px 12px;
-  font-size: 1rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+/* ─── Empty State ───────────────────────────────────────────────────────────── */
+.oo-empty {
+  max-width: 420px;
+  margin: 80px auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
-.brand-select select {
-  padding: 6px 12px;
-  font-size: 1rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+.oo-empty-icon {
+  font-size: 4rem;
 }
 
-/* Button grid for brand buttons */
-.button-grid {
+.oo-empty h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+}
+
+.oo-empty p {
+  font-size: 0.9rem;
+  color: #888;
+  margin: 0;
+}
+
+.oo-shop-btn {
+  margin-top: 8px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+}
+
+.oo-shop-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+}
+
+/* ─── Orders List ───────────────────────────────────────────────────────────── */
+.oo-list {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─── Order Card ────────────────────────────────────────────────────────────── */
+.oo-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
   display: flex;
   gap: 20px;
+  padding: 20px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.oo-card:hover {
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* ─── Product Image ─────────────────────────────────────────────────────────── */
+.oo-card-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f4f4f6;
+  flex-shrink: 0;
+}
+
+.oo-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.oo-card:hover .oo-card-img img {
+  transform: scale(1.05);
+}
+
+/* ─── Card Body ─────────────────────────────────────────────────────────────── */
+.oo-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.oo-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.oo-brand {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #a0a0a0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 4px;
+}
+
+.oo-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 6px;
+}
+
+.oo-meta {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin: 0;
+}
+
+/* ─── Status Badge ──────────────────────────────────────────────────────────── */
+.oo-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  border-radius: 50px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ─── Card Bottom ───────────────────────────────────────────────────────────── */
+.oo-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-/* Individual brand buttons */
-.brand-button {
-  height: 20vh;
-  width: 30vh;
-  background-size: cover;
-  background-position: center;
-  border: none;
-  cursor: pointer;
+.oo-price-info {
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 10px;
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  position: relative;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.oo-price {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #111;
+}
+
+.oo-date {
+  font-size: 0.75rem;
+  color: #bbb;
+}
+
+/* ─── Action Buttons ────────────────────────────────────────────────────────── */
+.oo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.oo-view-btn {
+  padding: 8px 18px;
+  background: #f4f4f6;
+  border: none;
   border-radius: 10px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
 }
 
-.brand-button:hover {
-  transform: scale(1.1);
+.oo-view-btn:hover {
+  background: #e8e8f0;
+  color: #4f46e5;
 }
 
-.brand-button::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 0;
+.oo-cancel-btn {
+  padding: 8px 18px;
+  background: #fff0f0;
+  border: 1.5px solid #fca5a5;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #dc2626;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
 }
 
-.brand-name {
-  position: relative;
-  z-index: 1;
+.oo-cancel-btn:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .oo-card {
+    flex-direction: column;
+  }
+
+  .oo-card-img {
+    width: 100%;
+    height: 200px;
+  }
+
+  .oo-card-top {
+    flex-direction: column;
+  }
+
+  .oo-card-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .oo-actions {
+    width: 100%;
+  }
+
+  .oo-view-btn,
+  .oo-cancel-btn {
+    flex: 1;
+    text-align: center;
+  }
 }

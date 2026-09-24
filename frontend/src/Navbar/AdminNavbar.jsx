@@ -14,7 +14,7 @@ const AdminNavbar = ({ onLogout }) => {
 
   return (
     <div className="navbar">
-      <p className="logo">Kick<span>Couture</span></p>
+      <p className="logo">KickCouture</p>
       <ul className="nav-links">
         <li><button onClick={handleLogout} className="logout-btn">Admin Logout</button></li>
       </ul>

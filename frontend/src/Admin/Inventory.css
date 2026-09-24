@@ -1,126 +1,121 @@
-/* ========== INVENTORY PAGE STYLING ========== */
-
+﻿/* Inventory - Premium Light Theme */
 .inventory-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f7f9fc, #eef2f7);
-  padding: 2rem 3rem;
-  font-family: "Poppins", sans-serif;
+  width: 100%;
+  padding: 10px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .inventory-header {
-  text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 30px;
 }
 
 .inventory-header h1 {
-  font-size: 2.2rem;
-  color: #1e293b;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #111827;
+  display: flex;
+  align-items: center;
 }
 
 .inventory-header p {
-  font-size: 1.1rem;
-  color: #475569;
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin-top: 6px;
+  font-weight: 500;
 }
 
-/* ===== Card Style ===== */
 .inventory-card {
   background: #fff;
   border-radius: 16px;
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.inventory-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  border: 1px solid #f3f4f6;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.04);
 }
 
 .inventory-card h2 {
-  font-size: 1.7rem;
-  font-weight: 600;
-  color: #0f172a;
-  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* ===== Brand List ===== */
 .brand-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
 }
 
 .brand-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   background: #f9fafb;
-  border: 1px solid #e2e8f0;
+  padding: 16px 20px;
   border-radius: 12px;
-  padding: 1rem 1.2rem;
-  margin-bottom: 1rem;
-  transition: all 0.2s ease-in-out;
+  border: 1px solid #f3f4f6;
+  transition: all 0.2s;
 }
 
 .brand-item:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
-  transform: scale(1.02);
+  transform: translateY(-3px);
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(229, 46, 113, 0.08);
+  border-color: #fde8ee;
 }
 
-/* ===== Brand Name and Circle ===== */
 .brand-name {
   display: flex;
   align-items: center;
-  font-weight: 600;
-  color: #1e293b;
-  font-size: 1rem;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #1f2937;
 }
 
 .brand-circle {
-  background-color: #3b82f6;
-  color: #fff;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  margin-right: 0.75rem;
-  text-transform: uppercase;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 800;
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, #ff8a00, #e52e71);
+  box-shadow: 0 4px 10px rgba(229, 46, 113, 0.2);
 }
 
-/* ===== Dynamic Count Colors ===== */
 .brand-count {
-  font-weight: 600;
-  border-radius: 8px;
-  padding: 6px 12px;
-  color: #fff;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: #f3f4f6;
+  color: #4b5563;
 }
 
-.count-1 {
-  background-color: #3b82f6; /* blue */
-}
-
-.count-2 {
-  background-color: #10b981; /* green */
-}
-
-.count-3 {
-  background-color: #f59e0b; /* amber */
-}
-
-.count-4 {
-  background-color: #ef4444; /* red */
-}
+/* Add some variety to counts based on the index class */
+.count-1 { background: #fefce8; color: #a16207; border: 1px solid #fef08a; }
+.count-2 { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+.count-3 { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.count-4 { background: #fdf2f8; color: #be185d; border: 1px solid #fbcfe8; }
 
 .no-products {
-  color: #64748b;
   text-align: center;
-  margin-top: 1rem;
+  padding: 40px;
+  color: #9ca3af;
+  font-size: 1.1rem;
+  font-weight: 600;
 }

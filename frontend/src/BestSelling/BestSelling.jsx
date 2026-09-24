@@ -1,118 +1,137 @@
-import React from 'react';
+﻿import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './BestSelling.css';
-import heroImg from '../assets/img1.jpeg';
-import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api/axiosConfig";
+import {
+  FaShoppingBag,
+  FaHeart,
+  FaChevronLeft,
+  FaChevronRight,
+  FaCheckCircle,
+} from 'react-icons/fa';
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 const BestSelling = ({ isLoggedIn }) => {
   const navigate = useNavigate();
-  const [displayedProducts, setDisplayedProducts] = useState([]);
-  
-    // 🆕 Buy Now Modal State
-    const [buyNowProduct, setBuyNowProduct] = useState(null);
-    const [formData, setFormData] = useState({
-      name: "",
-      email: "",
-      address: "",
-      phone: "",
-      quantity: 1,
-    });
-
+  const scrollRef = useRef(null);
   const [products, setProducts] = useState([]);
-    useEffect(() => {
-    fetchProducts();
-  }, []);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [toast, setToast] = useState(null);
+  const [wishlist, setWishlist] = useState({});
+
+  useEffect(() => { fetchProducts(); }, []);
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/product/get");
-      setProducts(res.data.data.slice(0, 3));
-    } catch (err) {
-      console.error("Error fetching products", err);
-    }
+      const res = await api.get("/api/product/get");
+      setProducts(res.data.data);
+    } catch (err) { console.error("Error fetching products", err); }
   };
 
-  const handleAddToCart = (product) => {
-    if (!isLoggedIn) {
-      navigate('/UserLogin');
-    } else {
-      console.log("Added to cart:", product.title);
-      // Implement actual cart logic here
-    }
+  const handleScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 10);
   };
 
-    // 🆕 When user clicks Buy Now
-   const handleBuyNow = (product) => {
-    const storedEmail = localStorage.getItem("userEmail") || "";
-    setBuyNowProduct(product);
-    setFormData({
-      name: "",
-      email: storedEmail,
-      address: "",
-      phone: "",
-      quantity: 1,
-    });
+  const scroll = (dir) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir === 'left' ? -320 : 320, behavior: 'smooth' });
   };
 
-  // 🆕 Handle input change
-   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
   };
 
-  // 🆕 Increase / Decrease Quantity
-  const updateQuantity = (delta) => {
-    setFormData((prev) => ({
-      ...prev,
-      quantity: Math.max(1, prev.quantity + delta),
-    }));
-  };
+  const toggleWishlist = (id) =>
+    setWishlist(prev => ({ ...prev, [id]: !prev[id] }));
 
-  // 🆕 Make Payment
-  const handleMakePayment = async () => {
-    if (!formData.name || !formData.email || !formData.address || !formData.phone) {
-      alert("Please fill all details before proceeding.");
-      return;
-    }
-
+  const handleAddToCart = async (product) => {
+    const email = localStorage.getItem("userEmail");
+    if (!email) { navigate('/UserLogin'); return; }
     try {
-      const totalPrice = buyNowProduct.price * formData.quantity;
-      await axios.post("http://localhost:5000/api/order/add", {
-        ...formData,
-        productId: buyNowProduct._id,
-        totalPrice,
-        status: "paid",
-      });
-
-      alert("Order placed successfully!");
-      setBuyNowProduct(null); // Close modal
-      navigate("/UserProfile");
-    } catch (err) {
-      console.error("Error making payment", err);
-      alert("Payment failed. Try again.");
-    }
+      const res = await api.post("/api/order/add", { email, productId: product._id, status: "cart" });
+      window.dispatchEvent(new Event('cartUpdated'));
+      showToast(res.data.message || 'Added to cart!');
+    } catch (err) { showToast('Failed to add to cart', 'error'); }
   };
 
-  
+  const handleBuyNow = (product) => {
+    const email = localStorage.getItem("userEmail");
+    if (!email) { navigate('/UserLogin'); return; }
+    navigate("/payment", { state: { product, quantity: 1 } });
+  };
+
+  const fakeOriginal = (price) => Math.round(price * 2);
 
   return (
-    <section className="best-selling">
-      {products.map((product) => (
-        <div className="product-card" key={product._id}>
-          <img src={"http://localhost:5000/" + product.image} alt={product.title} />
-          <div className="product-info">
-            <h1>{product.name}</h1>
-            <h2>size {product.size}</h2>
-            <h3>₹ {product.price}</h3>
-            <p>brand {product.brand}</p>
-            <p>{product.description}</p>
-            <button onClick={() => handleAddToCart(product)}>Add to Cart 🛒</button>
-           
-          </div>
+    <div className="scroll-section">
+      {toast && (
+        <div className={`toast-notif ${toast.type === 'error' ? 'toast-error' : 'toast-success'}`}>
+          <FaCheckCircle style={{ marginRight: '8px', flexShrink: 0 }} />
+          {toast.message}
         </div>
-      ))}
-    </section>
+      )}
+
+      <button className={`scroll-arrow left-arrow ${!canScrollLeft ? 'arrow-hidden' : ''}`}
+        onClick={() => scroll('left')} aria-label="Scroll Left">
+        <FaChevronLeft />
+      </button>
+
+      <div className="products-scroll-track" ref={scrollRef} onScroll={handleScroll}>
+        {products.map((product) => (
+          <div className="product-card" key={product._id}>
+
+            {/* IMAGE AREA */}
+            <div className="card-image-wrapper">
+              <span className="flash-badge">FLASH SALE</span>
+              <button
+                className={`wishlist-btn ${wishlist[product._id] ? 'wished' : ''}`}
+                onClick={() => toggleWishlist(product._id)}
+                aria-label="Wishlist"
+              >
+                <FaHeart />
+              </button>
+              <img
+                src={`${API_BASE}/` + product.image}
+                alt={product.name}
+                onClick={() => navigate(`/product/${product._id}`)}
+              />
+            </div>
+
+            {/* BRAND BAR */}
+            <div className="card-brand-bar">
+              <span className="card-brand-name">{product.brand}</span>
+              <button className="card-cart-btn" onClick={() => handleAddToCart(product)} aria-label="Add to cart">
+                <FaShoppingBag />
+              </button>
+            </div>
+
+            {/* PRODUCT INFO */}
+            <div className="product-info" onClick={() => navigate(`/product/${product._id}`)}>
+              <p className="product-brand-label">{product.brand?.toUpperCase()}</p>
+              <h3 className="product-title">{product.name?.toUpperCase()}</h3>
+              <div className="product-price-row">
+                <span className="price-mrp-label">MRP </span>
+                <span className="price-current">&#8377;{product.price?.toLocaleString('en-IN')}</span>
+                <span className="price-original">MRP &#8377;{fakeOriginal(product.price)?.toLocaleString('en-IN')}</span>
+              </div>
+            </div>
+
+          </div>
+        ))}
+      </div>
+
+      <button className={`scroll-arrow right-arrow ${!canScrollRight ? 'arrow-hidden' : ''}`}
+        onClick={() => scroll('right')} aria-label="Scroll Right">
+        <FaChevronRight />
+      </button>
+    </div>
   );
 };
 

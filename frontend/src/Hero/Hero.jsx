@@ -1,36 +1,108 @@
 import React from 'react';
-import { useState } from 'react';
 import './Hero.css';
 import { Link } from 'react-router-dom';
-import heroImg from '../assets/img1.jpeg'; // Your uploaded image
-import BestSelling from '../BestSelling/BestSelling';
-
+import heroImg from '../assets/red_shoe.jpg';
+import Trends from '../Trends/Trends';
+import { FaTruck, FaUndo, FaShieldAlt, FaStar, FaRocket, FaPercentage, FaChartLine, FaHandshake } from 'react-icons/fa';
 
 export const Hero = () => {
   return (
     <>
-    <section className="hero">
-      <div className="hero-left">
-        <h1>
-          Step Into The Future With <span>Style</span>
-        </h1>
-        <p>
-          Discover our latest collection of premium footwear designed for comfort,
-          performance, and unmatched style.
-        </p>
-        <div className="cta-buttons">
-          <Link to="/shop" className="btn primary">Shop Collection</Link>
-          <Link to="/UserProfile" className="btn secondary">Explore Features</Link>
+      {/* ── HERO BANNER ── */}
+      <div className="hero-page-wrapper">
+        <div className="hero-card">
+          <img src={heroImg} alt="KickCouture Banner" className="hero-banner-image" />
         </div>
       </div>
-      <div className="hero-right">
-        <img src={heroImg} alt="Product" className="product-image" />
+
+
+      {/* ── FEATURES STRIP (Trust Signals) ── */}
+      <div className="features-wrapper">
+        <div className="features-card">
+          <div className="features-strip">
+            <div className="feature-item">
+              <div className="feature-icon-box">
+                <FaTruck />
+              </div>
+              <div className="feature-text">
+                <strong>Free Delivery</strong>
+                <span>On orders above ₹999</span>
+              </div>
+            </div>
+
+            <div className="feature-divider" />
+
+            <div className="feature-item">
+              <div className="feature-icon-box">
+                <FaUndo />
+              </div>
+              <div className="feature-text">
+                <strong>Easy Returns</strong>
+                <span>7-day hassle-free return</span>
+              </div>
+            </div>
+
+            <div className="feature-divider" />
+
+            <div className="feature-item">
+              <div className="feature-icon-box">
+                <FaShieldAlt />
+              </div>
+              <div className="feature-text">
+                <strong>Secure Payment</strong>
+                <span>100% safe &amp; encrypted</span>
+              </div>
+            </div>
+
+            <div className="feature-divider" />
+
+            <div className="feature-item">
+              <div className="feature-icon-box">
+                <FaStar />
+              </div>
+              <div className="feature-text">
+                <strong>Authentic Products</strong>
+                <span>Certified genuine brands</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      
-    </section>
-    <div className="best-selling"> <h1> TRENDS</h1></div>
-  <BestSelling/>
-  </>
+      {/* ── TRENDS SECTION ── */}
+      <div className="page-wrapper" style={{ minHeight: 'auto', paddingTop: '0' }}>
+        <div className="page-card">
+          <div className="trends-header">
+            <div className="trends-title-row">
+              <div>
+                <h2>TRENDS</h2>
+                <p>Explore our most popular picks of the season</p>
+              </div>
+              <Link to="/collection" className="view-all-btn">View All →</Link>
+            </div>
+          </div>
+          <Trends />
+        </div>
+      </div>
+
+      {/* ── PARTNER SECTION ── */}
+      <div className="page-wrapper" style={{ minHeight: 'auto', paddingTop: '0' }}>
+        <div className="partner-card">
+          <div className="partner-content">
+            <h2>Become a Partner</h2>
+            <p>Join the KickCouture marketplace as a vendor. Sell your products to thousands of customers and grow your business with us.</p>
+            <div className="partner-benefits">
+              <span><FaRocket className="benefit-icon" /> Fast Onboarding</span>
+              <span><FaPercentage className="benefit-icon" /> Low Commission</span>
+              <span><FaChartLine className="benefit-icon" /> Dashboard Analytics</span>
+            </div>
+            <Link to="/vendor-register" className="partner-btn">Register as Vendor</Link>
+          </div>
+          <div className="partner-graphic">
+            <div className="graphic-circle"><FaHandshake /></div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };

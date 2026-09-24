@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import './Inventory.css';
+import api from '../api/axiosConfig';
+import { FaBox } from 'react-icons/fa';
 import "./Inventory.css";
 
 const Inventory = () => {
@@ -9,8 +11,8 @@ const Inventory = () => {
   const fetchInventory = async () => {
     try {
       const [productsRes, ordersRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/product/get"),
-        axios.get("http://localhost:5000/api/order/get"),
+        api.get("/api/product/get"),
+        api.get("/api/order/get"),
       ]);
 
       const allProducts = productsRes.data.data || [];
@@ -51,7 +53,7 @@ const Inventory = () => {
   return (
     <div className="inventory-container">
       <div className="inventory-header">
-        <h1>📦 Inventory Management</h1>
+        <h1><FaBox style={{ marginRight: '10px' }} /> Inventory Management</h1>
         <p>Monitor available products and stock counts per brand.</p>
       </div>
 

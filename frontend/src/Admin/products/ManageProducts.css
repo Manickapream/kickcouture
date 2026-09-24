@@ -1,150 +1,88 @@
-/* ManageProduct.css */
+/* Admin Manage Products - Premium Light Theme */
+.admin-page { width: 100%; font-family: "Inter", sans-serif; background-color: #f9fafb; min-height: 100vh; padding-bottom: 40px; }
 
-.page-container {
-  min-height: 100vh;
-  background-color: #f9fafb;
-  padding: 24px;
-  font-family: Arial, sans-serif;
-}
+.admin-page-header { margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.admin-page-header h1 { font-size: 1.8rem; font-weight: 900; color: #111827; letter-spacing: -0.5px; }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
+.back-link { color: #e52e71; text-decoration: none; font-size: 0.9rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px; transition: color 0.2s; }
+.back-link:hover { color: #ff8a00; }
 
-.logo {
-  font-size: 32px;
-  font-weight: 800;
-  color: #16a34a;
-  letter-spacing: -0.5px;
-}
-
-.logo span {
-  background-color: #bbf7d0;
-  padding: 4px 12px;
-  border-radius: 9999px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-}
-
-.logout-button {
-  padding: 10px 20px;
-  background-color: #ef4444;
-  color: white;
-  font-weight: 500;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.logout-button:hover {
-  background-color: #dc2626;
-}
-
+/* Card Containers */
 .card {
-  background: white;
-  padding: 32px;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  background: #ffffff; border-radius: 20px; padding: 32px; border: 1px solid #f3f4f6;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.04); margin-bottom: 40px;
 }
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.card-header h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1f2937;
-}
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 2px solid #f3f4f6; padding-bottom: 16px; }
+.card-header h2 { font-size: 1.4rem; color: #111827; font-weight: 800; }
 
 .add-button {
-  padding: 10px 16px;
-  background-color: #22c55e;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  background: linear-gradient(90deg, #ff8a00, #e52e71); color: white; border: none;
+  padding: 12px 24px; border-radius: 12px; font-weight: 800; font-size: 0.95rem;
+  cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(229, 46, 113, 0.2);
 }
+.add-button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(229, 46, 113, 0.3); }
 
-.add-button:hover {
-  background-color: #16a34a;
+/* Form Styles */
+.form-grid { animation: slideDown 0.3s ease; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+.fg { display: flex; flex-direction: column; gap: 8px; }
+.input-label { font-size: 0.85rem; color: #4b5563; font-weight: 700; }
+
+.form-input, .form-textarea, .form-file {
+  padding: 12px 16px; border: 1.5px solid #e5e7eb; border-radius: 12px; background: #f9fafb;
+  font-size: 0.95rem; font-family: inherit; color: #1f2937; outline: none; transition: all 0.2s;
+  width: 100%; box-sizing: border-box;
 }
+.form-input:focus, .form-textarea:focus { border-color: #e52e71; background: #fff; box-shadow: 0 0 0 3px rgba(229, 46, 113, 0.1); }
+.form-file { padding: 10px; background: #fff; border: 1.5px dashed #d1d5db; cursor: pointer; }
 
-.form-grid {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 768px) {
-  .form-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.input-label {
-  display: block;
-  font-weight: 500;
-  color: #4b5563;
-  margin-bottom: 6px;
-}
-
-.form-input,
-.form-textarea,
-.form-file {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 16px;
-}
-
-.form-textarea {
-  height: 100px;
-  resize: vertical;
-}
-
-.button-group {
-  margin-top: 16px;
-  display: flex;
-  gap: 16px;
-  grid-column: span 2;
-}
-
+/* Buttons in Form */
+.button-group { display: flex; gap: 16px; margin-top: 10px; }
 .submit-button {
-  background-color: #22c55e;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  flex: 2; padding: 14px; background: linear-gradient(90deg, #ff8a00, #e52e71); color: white;
+  border: none; border-radius: 12px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: all 0.2s;
 }
-
-.submit-button:hover {
-  background-color: #16a34a;
-}
+.submit-button:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(229, 46, 113, 0.2); }
 
 .cancel-button {
-  background-color: #9ca3af;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  flex: 1; padding: 14px; background: #f3f4f6; color: #374151; border: 1.5px solid #e5e7eb;
+  border-radius: 12px; font-weight: 700; cursor: pointer; transition: background 0.2s;
 }
+.cancel-button:hover { background: #e5e7eb; }
 
-.cancel-button:hover {
-  background-color: #6b7280;
+/* Product Grid Display */
+.best-selling { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+.product-card {
+  background: #ffffff; border: 1px solid #e5e7eb; border-radius: 20px; overflow: hidden;
+  transition: all 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column;
+}
+.product-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); border-color: #fca5a5; }
+
+.product-card img {
+  width: 100%; height: 220px; object-fit: contain; background: #f9fafb; padding: 20px;
+  border-bottom: 1px solid #f3f4f6; transition: transform 0.3s ease;
+}
+.product-card:hover img { transform: scale(1.03); }
+
+.product-info { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+.product-info h1 { font-size: 1.2rem; color: #111827; margin-bottom: 6px; font-weight: 800; line-height: 1.3; }
+.product-info h2 { font-size: 0.85rem !important; color: #6b7280; font-weight: 600; margin-bottom: 4px; }
+.product-info h3 { font-size: 1.4rem; font-weight: 900; color: #111827; margin: 12px 0 8px; }
+
+.product-info p { font-size: 0.9rem; color: #4b5563; line-height: 1.5; margin-bottom: 16px; flex: 1; }
+
+/* Edit/Delete Buttons in Card */
+.product-info .button-group { margin-top: auto; display: flex; gap: 12px; padding-top: 10px; border-top: 1px solid #f3f4f6; }
+.product-info .button-group button {
+  flex: 1; padding: 10px; border-radius: 10px; font-weight: 700; cursor: pointer; border: none; font-size: 0.9rem; transition: all 0.2s;
+}
+.product-info .button-group button:first-child { background: #eff6ff !important; color: #2563eb !important; border: 1.5px solid #bfdbfe !important; }
+.product-info .button-group button:first-child:hover { background: #2563eb !important; color: #fff !important; border-color: #2563eb !important; }
+
+.product-info .button-group button:last-child { background: #fef2f2 !important; color: #dc2626 !important; border: 1.5px solid #fecaca !important; }
+.product-info .button-group button:last-child:hover { background: #dc2626 !important; color: #fff !important; border-color: #dc2626 !important; }
+
+@media (max-width: 768px) {
+  .form-grid { grid-template-columns: 1fr !important; }
 }

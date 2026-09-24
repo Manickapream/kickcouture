@@ -1,104 +1,98 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import "../products/ManageProducts.css";
+﻿import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./ManageOrders.css";
+import adminService from "../../services/adminService";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 function ManageOrders() {
-  const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  useEffect(() => { fetchOrders(); }, []);
 
-  const fetchProducts = async () => {
+  const fetchOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/order/all");
-      setProducts(res.data.orders);
+      const res = await adminService.getOrders();
+      setOrders(res.data.orders || []);
     } catch (err) {
-      console.error("Error fetching products", err);
-    }
+      console.error("Error fetching orders", err);
+    } finally { setLoading(false); }
   };
 
   const handleDelete = async (order) => {
-    if (order.status === "approved") {
-      alert("❌ Approved orders cannot be deleted!");
-      return;
-    }
-    try {
-      await axios.delete(`http://localhost:5000/api/order/${order._id}`);
-      fetchProducts();
-    } catch (err) {
-      console.error("Error removing order", err);
-    }
+    if (order.status === "approved") { alert("Approved orders cannot be deleted!"); return; }
+    try { await adminService.deleteOrder(order._id); fetchOrders(); }
+    catch (err) { console.error("Error removing order", err); }
   };
 
- const handleApprove = async (order) => {
-  try {
-    const res = await axios.put(
-      `http://localhost:5000/api/order/${order._id}/approve`
-    );
-    alert(res.data.message || "✅ Order approved successfully!");
-    fetchProducts(); // refresh
-  } catch (err) {
-    console.error("Error approving order:", err.response?.data || err);
-    alert(err.response?.data?.message || "Failed to approve order!");
-  }
-};
+  const handleApprove = async (order) => {
+    try {
+      const res = await adminService.approveOrder(order._id);
+      alert(res.data.message || "Order approved!");
+      fetchOrders();
+    } catch (err) { alert(err.response?.data?.message || "Failed to approve order!"); }
+  };
 
-
-  const handleDashboard = () => {
-    navigate("/Dashboard");
+  const statusClass = (s) => {
+    const map = { cart: "status-cart", approved: "status-approved", delivered: "status-delivered", pending: "status-pending" };
+    return map[s] || "";
   };
 
   return (
-    <div className="page-container">
-      <div className="header">
-        <h1 className="logo">
-          <span>Kick</span>Couture
-        </h1>
-        <button onClick={handleDashboard} className="logout-button">
-          DashBoard
-        </button>
-      </div>
-
-      <div className="card">
-        <div className="card-header">
-          <h2>Manage Orders</h2>
+    <div className="admin-page">
+      <div className="admin-page-header">
+        <div>
+          <Link to="/Dashboard" className="back-link">← Dashboard</Link>
+          <h1>Manage Orders</h1>
         </div>
-
-        <section className="best-selling">
-          {products.map((order) => {
-            const product = order.productId;
-            return (
-              <div className="product-card" key={order._id}>
-                <img
-                  src={"http://localhost:5000/" + product.image}
-                  alt={product.title}
-                />
-                <div className="product-info">
-                  <h1>{product.name}</h1>
-                  <h2>Status: {order.status}</h2>
-                  <h2>Recipient: {order.email}</h2>
-                  <h2>Size: {product.size}</h2>
-                  <h3>₹ {product.price}</h3>
-                  <p>Brand: {product.brand}</p>
-                  <p>{product.description}</p>
-
-                  <button onClick={() => handleDelete(order)}>❌ Cancel</button>
-                  <button
-                    onClick={() => handleApprove(order)}
-                    disabled={order.status === "approved"}
-                    className={order.status === "approved" ? "disabled" : ""}
-                  >
-                    {order.status === "approved" ? "Approved" : "Approve"}
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </section>
       </div>
+
+      {loading ? (
+        <div className="loading-state">Loading orders...</div>
+      ) : orders.length === 0 ? (
+        <div className="empty-state"><h3>No orders found</h3></div>
+      ) : (
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Name</th>
+                <th>Recipient</th>
+                <th>Size</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order) => {
+                const p = order.productId;
+                return (
+                  <tr key={order._id}>
+                    <td><img className="product-thumb" src={`${API_BASE}/${p?.image}`} alt={p?.name} /></td>
+                    <td>{p?.name}</td>
+                    <td>{order.email}</td>
+                    <td>{p?.size}</td>
+                    <td>&#8377;{p?.price}</td>
+                    <td><span className={`status-badge ${statusClass(order.status)}`}>{order.status}</span></td>
+                    <td style={{ display: "flex", gap: "8px" }}>
+                      <button className="btn-action btn-delete" onClick={() => handleDelete(order)}>Cancel</button>
+                      <button className="btn-action btn-edit"
+                        onClick={() => handleApprove(order)}
+                        disabled={order.status === "approved"}
+                      >
+                        {order.status === "approved" ? "Approved" : "Approve"}
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
