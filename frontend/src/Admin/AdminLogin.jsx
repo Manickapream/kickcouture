@@ -1,29 +1,35 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdminLogin.css';
-import api from '../api/axiosConfig';
+import { useAuth } from '../context/AuthContext';
+import adminService from '../services/adminService';
 
 const AdminLogin = ({ onAdminLogin }) => {
   const navigate = useNavigate();
+  const { loginAdmin, logoutUser, logoutVendor } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
 
     try {
-      const res = await api.post('/api/admin/login', {
-        email,
-        password,
-      });
-
-      alert(res.data.message);
-      onAdminLogin(); // Notify App of admin login
-
-      navigate('/Dashboard'); // Redirect to dashboard
+      const res = await adminService.login({ email, password });
+      // Store token in context (and localStorage via context)
+      logoutUser();
+      logoutVendor();
+      loginAdmin(res.data.token, res.data.admin);
+      if (onAdminLogin) onAdminLogin(); // backward compat
+      navigate('/Dashboard');
     } catch (err) {
-      alert(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -33,6 +39,8 @@ const AdminLogin = ({ onAdminLogin }) => {
         <div className="admin-login-container">
           <form className="admin-login-form" onSubmit={handleSubmit}>
             <h2>Admin Login</h2>
+
+            {error && <div className="login-error">⚠️ {error}</div>}
 
             <div className="form-group">
               <label htmlFor="adminEmail">Email:</label>
@@ -58,7 +66,9 @@ const AdminLogin = ({ onAdminLogin }) => {
               />
             </div>
 
-            <button type="submit">Login</button>
+            <button type="submit" disabled={loading}>
+              {loading ? 'Logging in...' : 'Login'}
+            </button>
           </form>
         </div>
       </div>

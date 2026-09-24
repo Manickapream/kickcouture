@@ -11,10 +11,10 @@ const Footer = () => {
           <h2>KickCouture</h2>
           <p>Premium sneakers and footwear for everyone. Step up your style game with our exclusive collections.</p>
           <div className="social-icons">
-            <a href="#"><FaFacebook /></a>
-            <a href="#"><FaTwitter /></a>
-            <a href="#"><FaInstagram /></a>
-            <a href="#"><FaGithub /></a>
+            <a href="#" aria-label="Facebook" rel="noopener noreferrer"><FaFacebook /></a>
+            <a href="#" aria-label="Twitter" rel="noopener noreferrer"><FaTwitter /></a>
+            <a href="#" aria-label="Instagram" rel="noopener noreferrer"><FaInstagram /></a>
+            <a href="#" aria-label="GitHub" rel="noopener noreferrer"><FaGithub /></a>
           </div>
         </div>
 

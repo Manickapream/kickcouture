@@ -5,6 +5,34 @@
   font-family: 'Inter', sans-serif;
 }
 
+.profile-header-actions {
+  max-width: 800px;
+  margin: 0 auto 20px auto;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.profile-back-btn {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.profile-back-btn:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+}
+
 .profile-card {
   max-width: 600px;
   margin: 0 auto;

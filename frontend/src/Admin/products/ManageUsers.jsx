@@ -1,88 +1,68 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import "../products/ManageUsers.css";
+﻿import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./ManageUsers.css";
+import adminService from "../../services/adminService";
 
 function ManageUsers() {
-  const navigate = useNavigate();
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [products, setProducts] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editId, setEditId] = useState(null);
+  useEffect(() => { fetchUsers(); }, []);
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
+  const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/user");
-      console.log(res.data.users)
-      setProducts(res.data.users);
-    } catch (err) {
-      console.error("Error fetching products", err);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-        await axios.put(`http://localhost:5000/api/user/${editId}`, formData);
-      fetchProducts();
-    } catch (error) {
-      console.error("Error submitting product", error);
-    }
+      const res = await adminService.getUsers();
+      setUsers(res.data.users || []);
+    } catch (err) { console.error("Error fetching users", err); }
+    finally { setLoading(false); }
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
-      await axios.delete(`http://localhost:5000/api/user/${id}`);
-      fetchProducts();
+    if (window.confirm("Delete this user?")) {
+      try { await adminService.deleteUser(id); fetchUsers(); }
+      catch (err) { console.error("Error deleting user", err); }
     }
   };
 
-  const handleDashboard = () => {
-    navigate("/Dashboard");
-  };
-
   return (
-    <div className="page-container">
-      <div className="header">
-        <h1 className="logo">
-          <span>Kick</span>Couture
-        </h1>
-        <button onClick={handleDashboard} className="logout-button">
-          DashBoard
-        </button>
-      </div>
-
-
-
-
-
-
-
-
-
-      <div className="card">
-        <div className="card-header">
-          <h2>Manage Users</h2>
+    <div className="admin-page">
+      <div className="admin-page-header">
+        <div>
+          <Link to="/Dashboard" className="back-link">← Dashboard</Link>
+          <h1>Manage Users</h1>
         </div>
-          <section className="best-selling">
-            {products.map((product) => (
-              <div className="product-card" key={product._id}>
-                {/* <img src={"http://localhost:5000/" + product.image} alt={product.title} /> */}
-                <div className="product-info">
-                  <h1>{product.name}</h1>
-                  <h2>{product.email}</h2>
-                  <p>{product.password}</p>
-                  <button onClick={() => handleDelete(product._id)}>Delete</button>
-                </div>
-              </div>
-            ))}
-          </section>
       </div>
+
+      {loading ? (
+        <div className="loading-state">Loading users...</div>
+      ) : users.length === 0 ? (
+        <div className="empty-state"><h3>No users found</h3></div>
+      ) : (
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user, i) => (
+                <tr key={user._id}>
+                  <td>{i + 1}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>
+                    <button className="btn-action btn-delete" onClick={() => handleDelete(user._id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

@@ -2,17 +2,24 @@ import React, { useState, useEffect } from "react";
 import "./Collection.css";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axiosConfig";
-import { FaShoppingCart } from 'react-icons/fa';
+import { FaShoppingCart, FaHeart } from 'react-icons/fa';
+import { useAuth } from "../context/AuthContext";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 export const Collection = () => {
   const navigate = useNavigate();
-  const [selectedGender, setSelectedGender] = useState("Kids");
-  const [selectedBrand, setSelectedBrand] = useState("Nike");
+  const { isUserLoggedIn, userData } = useAuth();
+  const [selectedGender, setSelectedGender] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("");
   const [products, setProducts] = useState([]);
   const [displayedProducts, setDisplayedProducts] = useState([]);
-  
+
   // Search state
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Dynamic brand list
+  const [brands, setBrands] = useState([]);
 
   useEffect(() => {
     fetchProducts();
@@ -20,8 +27,13 @@ export const Collection = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await api.get("/api/product");
-      setProducts(response.data.products || response.data);
+      const response = await api.get("/api/product/get");
+      const fetchedProducts = response.data.products || response.data.data || response.data;
+      setProducts(fetchedProducts);
+
+      // Extract unique brands dynamically
+      const uniqueBrands = [...new Set(fetchedProducts.map(p => p.brand).filter(Boolean))];
+      setBrands(uniqueBrands);
     } catch (error) {
       console.error("Error fetching products", error);
     }
@@ -44,7 +56,7 @@ export const Collection = () => {
 
     if (searchTerm) {
       filtered = filtered.filter(
-        (product) => 
+        (product) =>
           product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           product.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -53,39 +65,37 @@ export const Collection = () => {
     setDisplayedProducts(filtered);
   }, [selectedGender, selectedBrand, searchTerm, products]);
 
-  const handleAddToCart = async (product) => {
-    try {
-      const email = localStorage.getItem("userEmail");
-      if (!email) {
-        navigate('/UserLogin');
-        return;
-      }
-      const res = await api.post("/api/order/add", {
-        email,
-        productId: product._id,
-        status: "cart",
-      });
-      window.dispatchEvent(new Event('cartUpdated'));
-      alert(res.data.message || 'Added to cart!');
-    } catch (err) {
-      console.error("Error adding to cart", err);
-      alert("Error adding to cart");
-    }
+  // Navigate to single product page instead of directly to payment
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
   };
 
-  const handleBuyNow = (product) => {
-    const storedEmail = localStorage.getItem("userEmail");
-    if (!storedEmail) {
+  const handleWishlistClick = (e, product) => {
+    e.preventDefault();
+    e.stopPropagation(); // Prevent product card click from firing
+
+    if (!isUserLoggedIn || !userData?.email) {
       navigate('/UserLogin');
       return;
     }
+
+    let wishlistItems = [];
+    const stored = localStorage.getItem('wishlist');
+    if (stored) {
+      wishlistItems = JSON.parse(stored);
+    }
+
+    const isPresent = wishlistItems.some(item => item._id === product._id);
     
-    navigate("/payment", {  
-      state: { 
-        product: product,
-        quantity: 1
-      }
-    }); 
+    if (isPresent) {
+      // If already in wishlist, let's just go there to see it
+      navigate('/wishlist');
+    } else {
+      wishlistItems.push(product);
+      localStorage.setItem('wishlist', JSON.stringify(wishlistItems));
+      window.dispatchEvent(new Event('wishlistUpdated'));
+      navigate('/wishlist');
+    }
   };
 
   return (
@@ -96,11 +106,11 @@ export const Collection = () => {
 
           <div className="select-navbar">
             <div className="search-input">
-              <input 
-                type="text" 
-                placeholder="Search products..." 
-                value={searchTerm} 
-                onChange={(e) => setSearchTerm(e.target.value)} 
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
@@ -122,31 +132,39 @@ export const Collection = () => {
                 onChange={(e) => setSelectedBrand(e.target.value)}
               >
                 <option value="">All Brands</option>
-                <option value="Nike">Nike</option>
-                <option value="Adidas">Adidas</option>
-                <option value="Crocs">Crocs</option>
+                {brands.map(b => (
+                  <option key={b} value={b}>{b}</option>
+                ))}
               </select>
             </div>
           </div>
 
           <section className="best-selling">
             {displayedProducts.map((product) => (
-              <div className="product-card" key={product._id}>
+              <div
+                className="product-card"
+                key={product._id}
+                onClick={() => handleProductClick(product._id)}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="product-card-header">
+                  <FaHeart 
+                    className="wishlist-icon" 
+                    onClick={(e) => handleWishlistClick(e, product)}
+                    title="Add to Wishlist"
+                  />
+                  {product.isOnSale && <span className="flash-sale-tag">FLASH SALE</span>}
+                </div>
                 <div className="image-container">
-                  <img src={"http://localhost:5000/" + product.image} alt={product.name} />
+                  <img src={`${API_BASE}/${product.image}`} alt={product.name} />
                 </div>
                 <div className="product-info">
-                  <h1>{product.name}</h1>
-                  <h2>Size {product.size}</h2>
-                  <h3>₹ {product.price}</h3>
-                  <p>{product.brand} - {product.description}</p>
-                  
-                  <div className="product-actions">
-                    <button className="add-cart-btn" onClick={() => handleAddToCart(product)}>
-                      Add to Cart <FaShoppingCart />
-                    </button>
-                    {localStorage.getItem("userEmail") && (
-                      <button className="buy-now-btn" onClick={() => handleBuyNow(product)}>Buy Now</button>
+                  <p className="product-brand">{product.brand}</p>
+                  <h3>{product.name}</h3>
+                  <div className="price-container">
+                    <p className="price">MRP ₹{product.price}</p>
+                    {product.originalPrice && (
+                      <p className="original-price">MRP ₹{product.originalPrice}</p>
                     )}
                   </div>
                 </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import adminService from "../services/adminService";
 import {
   PieChart,
   Pie,
@@ -25,7 +25,7 @@ const Report = () => {
   const fetchReport = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/order/all");
+      const res = await adminService.getOrders();
       let allOrders = res.data.orders || [];
 
       // 🧮 Apply from/to date filter if both are set
@@ -101,30 +101,34 @@ const Report = () => {
     <div className="report-container">
       <h2 className="report-title">📊 Sales & Orders Report</h2>
 
-      {/* Period Selector */}
-      <div className="report-filters">
-        <label>Period:</label>
-        <select value={period} onChange={(e) => setPeriod(e.target.value)}>
-          <option value="week">Weekly</option>
-          <option value="month">Monthly</option>
-          <option value="year">Yearly</option>
-        </select>
-      </div>
+      {/* Filters Top Bar */}
+      <div className="report-filters-bar">
+        <div className="filter-group">
+          <label>Period:</label>
+          <select value={period} onChange={(e) => setPeriod(e.target.value)}>
+            <option value="week">Weekly</option>
+            <option value="month">Monthly</option>
+            <option value="year">Yearly</option>
+          </select>
+        </div>
+        
+        <div className="filter-group">
+          <label>From:</label>
+          <input
+            type="date"
+            value={fromDate}
+            onChange={(e) => setFromDate(e.target.value)}
+          />
+        </div>
 
-      {/* 🗓️ Date Range Filter */}
-      <div className="filter-by-date">
-        <label>From:</label>
-        <input
-          type="date"
-          value={fromDate}
-          onChange={(e) => setFromDate(e.target.value)}
-        />
-        <label>To:</label>
-        <input
-          type="date"
-          value={toDate}
-          onChange={(e) => setToDate(e.target.value)}
-        />
+        <div className="filter-group">
+          <label>To:</label>
+          <input
+            type="date"
+            value={toDate}
+            onChange={(e) => setToDate(e.target.value)}
+          />
+        </div>
       </div>
 
       {loading ? (
@@ -176,53 +180,61 @@ const Report = () => {
           {/* Product Sales Table */}
           <div className="report-card">
             <h3>🛍️ Product-wise Sales</h3>
-            <table className="report-table">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Quantity Sold</th>
-                  <th>Total (₹)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.entries(report.productStats || {}).map(
-                  ([name, stats]) => (
-                    <tr key={name}>
-                      <td>{name}</td>
-                      <td>{stats.count}</td>
-                      <td>{stats.total.toFixed(2)}</td>
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </table>
+            <div className="report-table-wrap">
+              <table className="report-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Quantity Sold</th>
+                    <th>Total (₹)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(report.productStats || {}).map(
+                    ([name, stats]) => (
+                      <tr key={name}>
+                        <td>{name}</td>
+                        <td>{stats.count}</td>
+                        <td>₹ {stats.total.toFixed(2)}</td>
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {/* Orders Table */}
           <div className="report-card">
             <h3>📅 Order Details</h3>
-            <table className="report-table">
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Customer Email</th>
-                  <th>Product</th>
-                  <th>Status</th>
-                  <th>Created At</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map((order) => (
-                  <tr key={order._id}>
-                    <td>{order._id.slice(-6)}</td>
-                    <td>{order.email}</td>
-                    <td>{order.productId?.name || "N/A"}</td>
-                    <td>{order.status}</td>
-                    <td>{formatDate(order.createdAt)}</td>
+            <div className="report-table-wrap">
+              <table className="report-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Customer Email</th>
+                    <th>Product</th>
+                    <th>Status</th>
+                    <th>Created At</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {orders.map((order) => (
+                    <tr key={order._id}>
+                      <td>{order._id.slice(-6)}</td>
+                      <td>{order.email}</td>
+                      <td>{order.productId?.name || "N/A"}</td>
+                      <td>
+                        <span className={`status-badge ${order.status === 'pending' ? 'status-pending' : 'status-cart'}`}>
+                          {order.status}
+                        </span>
+                      </td>
+                      <td>{formatDate(order.createdAt)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </>
       ) : (

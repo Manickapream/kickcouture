@@ -21,160 +21,129 @@
   display: none;
 }
 
-
 .trends-product-card {
+  width: 280px;
+  flex-shrink: 0;
   background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
   overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.3s ease;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
-  min-width: 255px;
-  max-width: 255px;
-  scroll-snap-align: start;
-  flex-shrink: 0;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  cursor: pointer;
 }
 
 .trends-product-card:hover {
-  transform: translateY(-7px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
+.trends-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  z-index: 2;
+  position: relative;
+}
+
+.trends-wishlist-icon {
+  color: #111827;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.trends-wishlist-icon:hover {
+  color: #ef4444;
+}
+
+.trends-flash-sale {
+  background: #ff0000;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 900;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
 
 .trends-card-image-wrapper {
-  width: 100%;
-  height: 175px;
-  overflow: hidden;
-  background-color: #f0f2f5;
-  flex-shrink: 0;
+  height: 220px;
+  position: relative;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Fix image spilling */
 }
 
 .trends-card-image-wrapper img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.45s ease;
-  display: block;
+  object-fit: contain;
+  transition: transform 0.4s ease;
 }
 
 .trends-product-card:hover .trends-card-image-wrapper img {
-  transform: scale(1.07);
+  transform: scale(1.05);
 }
 
 .trends-product-info {
-  padding: 1.1rem 1.2rem 1.2rem;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  margin-top: 8px; /* Push text down */
+  padding: 0 4px;
 }
 
-.trends-product-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.3rem;
-  gap: 6px;
+.trends-brand {
+  font-size: 0.8rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin: 0;
+  line-height: 1.2; /* Fix text cut off */
 }
 
 .trends-product-title {
   font-size: 1rem;
+  font-weight: 800;
+  color: #111827;
+  text-transform: uppercase;
+  line-height: 1.3;
   margin: 0;
-  color: #1a1a1a;
-  font-weight: 700;
-  text-transform: capitalize;
-  line-height: 1.25;
-  flex: 1;
 }
 
-.trends-product-size {
-  font-size: 0.7rem;
-  background: #f1f3f5;
-  color: #495057;
-  padding: 3px 8px;
-  border-radius: 20px;
-  font-weight: 600;
-  white-space: nowrap;
-  flex-shrink: 0;
+.trends-price-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
 }
 
 .trends-product-price {
-  font-size: 1.3rem;
-  color: #fa5252;
-  margin: 0.25rem 0 0.5rem;
+  font-size: 1rem;
   font-weight: 800;
-  letter-spacing: -0.3px;
+  color: #111827;
+  margin: 0;
 }
 
-.trends-product-meta {
-  margin-bottom: 0.45rem;
-}
-
-.trends-brand-badge {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #adb5bd;
+.trends-original-price {
+  font-size: 0.85rem;
   font-weight: 700;
-}
-
-.trends-product-desc {
-  font-size: 0.82rem;
-  color: #777;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-  flex-grow: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  color: #ef4444;
+  text-decoration: line-through;
+  margin: 0;
 }
 
 
-.trends-product-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: auto;
-}
-
-.btn-cart,
-.btn-buy {
-  flex: 1;
-  padding: 0.6rem 0.4rem;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.8rem;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-}
-
-.btn-cart {
-  background-color: #f1f3f5;
-  color: #1a1a1a;
-  border: 1.5px solid #e9ecef;
-}
-
-.btn-cart:hover {
-  background-color: #e2e6ea;
-  border-color: #dee2e6;
-}
-
-.btn-buy {
-  background-color: #1a1a1a;
-  color: #ffffff;
-}
-
-.btn-buy:hover {
-  background-color: #fa5252;
-  box-shadow: 0 4px 14px rgba(250, 82, 82, 0.3);
-}
+/* Removed actions */
 
 .btn-cart:active,
 .btn-buy:active {
@@ -225,16 +194,12 @@
 
 @media (max-width: 992px) {
   .trends-product-card {
-    min-width: 235px;
-    max-width: 235px;
+    width: 240px;
+    min-width: 240px;
   }
 
   .trends-card-image-wrapper {
-    height: 160px;
-  }
-
-  .trends-products-scroll-track {
-    padding: 1rem 50px 1.5rem;
+    height: 180px;
   }
 }
 
@@ -243,45 +208,51 @@
     padding: 0 0 2rem;
   }
 
+  /* Optimize for native touch swipe, hide arrows */
+  .scroll-arrow {
+    display: none;
+  }
+
   .trends-products-scroll-track {
-    padding: 1rem 45px 1.2rem;
-    gap: 1.2rem;
+    padding: 1rem 1rem 1.5rem;
+    gap: 1rem;
+    scroll-padding-left: 1rem; /* Better snap alignment */
   }
 
   .trends-product-card {
-    min-width: 210px;
-    max-width: 210px;
+    width: 45vw;
+    min-width: 180px;
+    max-width: 220px;
+    padding: 14px;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    scroll-snap-align: start;
   }
 
   .trends-card-image-wrapper {
-    height: 145px;
+    height: 150px;
+    margin-bottom: 12px;
   }
 
   .trends-product-info {
-    padding: 1rem;
+    gap: 4px;
   }
 
   .trends-product-title {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+  
+  .trends-brand {
+    font-size: 0.75rem;
   }
 
   .trends-product-price {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
   }
-
-  .scroll-arrow {
-    width: 36px;
-    height: 36px;
-    font-size: 0.82rem;
-    top: calc(1rem + 72px);
-  }
-
-  .left-arrow {
-    left: 8px;
-  }
-
-  .right-arrow {
-    right: 8px;
+  
+  .trends-original-price {
+    font-size: 0.85rem;
   }
 }
 
@@ -290,51 +261,41 @@
    =========================== */
 @media (max-width: 480px) {
   .trends-products-scroll-track {
-    padding: 1rem 38px 1.2rem;
-    gap: 1rem;
+    padding: 1rem 1rem 1.2rem;
+    gap: 14px;
   }
 
   .trends-product-card {
-    min-width: 175px;
-    max-width: 175px;
+    /* Use 65vw so the next card peeks from the right side, hinting user to scroll */
+    width: 65vw; 
+    min-width: unset;
+    max-width: unset;
+    padding: 12px;
+    border-radius: 12px;
   }
 
   .trends-card-image-wrapper {
-    height: 120px;
+    height: 140px;
+    background: #f9fafb;
+    border-radius: 8px;
+    margin-bottom: 10px;
   }
 
   .trends-product-title {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
   }
 
   .trends-product-price {
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
 
-  .trends-product-desc {
-    font-size: 0.78rem;
+  .trends-wishlist-icon {
+    font-size: 1.1rem;
   }
-
-  .btn-cart,
-  .btn-buy {
-    font-size: 0.72rem;
-    padding: 0.5rem 0.3rem;
-    border-radius: 8px;
-  }
-
-  .scroll-arrow {
-    width: 30px;
-    height: 30px;
-    font-size: 0.75rem;
-    top: calc(1rem + 60px);
-  }
-
-  .left-arrow {
-    left: 5px;
-  }
-
-  .right-arrow {
-    right: 5px;
+  
+  .trends-flash-sale {
+    font-size: 0.65rem;
+    padding: 3px 6px;
   }
 }
 

@@ -1,4 +1,15 @@
+.login-error {
+  background: rgba(239,68,68,0.12);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #fca5a5;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 0.875rem;
+}
+
 .admin-login-container {
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,6 +48,8 @@
   border: 1px solid rgba(0,0,0,0.1);
   border-radius: 50px;
   font-size: 1rem;
+  color: #000 !important;
+  background-color: #fff !important;
   transition: border-color 0.3s ease;
 }
 

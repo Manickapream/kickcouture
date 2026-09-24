@@ -680,3 +680,162 @@
     font-size: 0.72rem;
   }
 }
+
+/* ===========================
+   PARTNER SECTION  – Orange-Pink Gradient
+   =========================== */
+.partner-card {
+  background: linear-gradient(90deg, #ff8a00, #e52e71);
+  border-radius: 28px;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4rem 5%;
+  color: #fff;
+  box-shadow: 0 12px 40px rgba(229, 46, 113, 0.30), 0 2px 12px rgba(0,0,0,0.08);
+  border: none;
+}
+
+.partner-card::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -60px;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(255,255,255, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.partner-content {
+  flex: 1.5;
+  z-index: 1;
+}
+
+.partner-content h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.partner-content p {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  max-width: 90%;
+}
+
+.partner-benefits {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.partner-benefits span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 8px 18px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.30);
+  backdrop-filter: blur(4px);
+  transition: background 0.2s;
+}
+
+.partner-benefits span:hover {
+  background: rgba(255,255,255,0.28);
+}
+
+.benefit-icon {
+  font-size: 1rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.partner-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  background: #fff;
+  color: #e52e71;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.partner-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.22);
+  background: #fff8fb;
+}
+
+.partner-graphic {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1;
+}
+
+.graphic-circle {
+  width: 200px;
+  height: 200px;
+  background: rgba(255,255,255,0.18);
+  border: 2px dashed rgba(255,255,255,0.40);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  color: #fff;
+  box-shadow: 0 0 50px rgba(255,255,255,0.15);
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+@media (max-width: 992px) {
+  .partner-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 3rem 5%;
+    gap: 2rem;
+  }
+  .partner-content p {
+    max-width: 100%;
+  }
+  .partner-benefits {
+    justify-content: center;
+  }
+  .partner-graphic {
+    justify-content: center;
+  }
+}
+@media (max-width: 480px) {
+  .partner-content h2 {
+    font-size: 2rem;
+  }
+  .graphic-circle {
+    width: 150px;
+    height: 150px;
+    font-size: 3.5rem;
+  }
+}

@@ -3,7 +3,7 @@ import './Hero.css';
 import { Link } from 'react-router-dom';
 import heroImg from '../assets/red_shoe.jpg';
 import Trends from '../Trends/Trends';
-import { FaTruck, FaUndo, FaShieldAlt, FaStar } from 'react-icons/fa';
+import { FaTruck, FaUndo, FaShieldAlt, FaStar, FaRocket, FaPercentage, FaChartLine, FaHandshake } from 'react-icons/fa';
 
 export const Hero = () => {
   return (
@@ -82,6 +82,25 @@ export const Hero = () => {
             </div>
           </div>
           <Trends />
+        </div>
+      </div>
+
+      {/* ── PARTNER SECTION ── */}
+      <div className="page-wrapper" style={{ minHeight: 'auto', paddingTop: '0' }}>
+        <div className="partner-card">
+          <div className="partner-content">
+            <h2>Become a Partner</h2>
+            <p>Join the KickCouture marketplace as a vendor. Sell your products to thousands of customers and grow your business with us.</p>
+            <div className="partner-benefits">
+              <span><FaRocket className="benefit-icon" /> Fast Onboarding</span>
+              <span><FaPercentage className="benefit-icon" /> Low Commission</span>
+              <span><FaChartLine className="benefit-icon" /> Dashboard Analytics</span>
+            </div>
+            <Link to="/vendor-register" className="partner-btn">Register as Vendor</Link>
+          </div>
+          <div className="partner-graphic">
+            <div className="graphic-circle"><FaHandshake /></div>
+          </div>
         </div>
       </div>
     </>

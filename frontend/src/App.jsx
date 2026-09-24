@@ -1,98 +1,185 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
+import RoleProtectedRoute from './components/RoleProtectedRoute';
+import ScrollToTop from './components/ScrollToTop';
 
-import Report from './Admin/Report';
+// Navbars
 import Navbar from './Navbar/Navbar';
 import UserNavbar from './Navbar/UserNavbar';
 import AdminNavbar from './Navbar/AdminNavbar';
-import AdminLogin from './Admin/AdminLogin';
+
+// Public / Customer Pages
 import { Hero } from './Hero/Hero';
 import { Collection } from './Collection/Collection';
-import Dashboard from './Admin/Dashboard';
-import UserProfile from './User/UserProfile';
 import UserLogin from './User/UserLogin';
+import UserProfile from './User/UserProfile';
 import AboutUs from '../about/AboutUs';
 import { Cart } from './Cart/Cart';
 import { Payment } from './pages/Payment';
-import Inventory from "./Admin/inventory";
-import { OldOrders } from "./OldOrders/OldOrders";
-import Footer from "./Footer/Footer";
+import { OldOrders } from './OldOrders/OldOrders';
+import Footer from './Footer/Footer';
+import SingleProduct from './Product/SingleProduct';
 
+import Wishlist from './Wishlist/Wishlist';
 
-// ✅ Import Product Management Components
+// Admin Pages
+import AdminLogin from './Admin/AdminLogin';
+import Dashboard from './Admin/Dashboard';
 import ManageProducts from './Admin/products/ManageProducts';
-
-// manage users and orders components to be added later
 import ManageUsers from './Admin/products/ManageUsers';
 import ManageOrders from './Admin/products/ManageOrders';
+import ManageVendors from './Admin/ManageVendors';
+import Inventory from './Admin/inventory';
+import Report from './Admin/Report';
+import AdminSidebar from './Admin/AdminSidebar';
+
+// Vendor Pages
+import VendorRegister from './Vendor/VendorRegister';
+import VendorLogin from './Vendor/VendorLogin';
+import VendorDashboard from './Vendor/VendorDashboard';
+import VendorProducts from './Vendor/VendorProducts';
+import VendorOrders from './Vendor/VendorOrders';
+import VendorProfile from './Vendor/VendorProfile';
+
+const AppNavbar = () => {
+  const { isUserLoggedIn, logoutUser } = useAuth();
+  const location = useLocation();
+  const path = location.pathname;
+
+  const isVendorRoute = path.startsWith('/vendor-');
+  const isAdminRoute = [
+    '/Dashboard',
+    '/manage-products',
+    '/manage-users',
+    '/manage-orders',
+    '/manage-vendors',
+    '/report',
+    '/inventory',
+  ].some(r => path.startsWith(r));
+
+  if (isVendorRoute || isAdminRoute) return null;
+
+  if (isUserLoggedIn) return <UserNavbar onLogout={logoutUser} />;
+  return <Navbar />;
+};
+
+/* Wraps every admin page with the sidebar */
+const AdminLayout = ({ children }) => (
+  <div className="admin-layout">
+    <AdminSidebar />
+    <main className="admin-main">{children}</main>
+  </div>
+);
+
+const AppFooter = () => {
+  const { isAdminLoggedIn, isVendorLoggedIn } = useAuth();
+  const location = useLocation();
+  const isVendorPage = location.pathname.startsWith('/vendor-');
+  const isAdminPage = [
+    '/Dashboard',
+    '/manage-products',
+    '/manage-users',
+    '/manage-orders',
+    '/manage-vendors',
+    '/report',
+    '/inventory',
+  ].some(r => location.pathname.startsWith(r));
+  if (isAdminLoggedIn || isVendorLoggedIn || isVendorPage || isAdminPage) return null;
+  return <Footer />;
+};
 
 const App = () => {
-  // Login state persists using localStorage
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(localStorage.getItem('adminLoggedIn') === 'true');
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(localStorage.getItem('userLoggedIn') === 'true');
-
-  // Handle admin login
-  const handleAdminLogin = () => {
-    setIsAdminLoggedIn(true);
-    localStorage.setItem('adminLoggedIn', 'true');
-  };
-
-  // Handle admin logout
-  const handleAdminLogout = () => {
-    setIsAdminLoggedIn(false);
-    localStorage.setItem('adminLoggedIn', 'false');
-  };
-
-  // Handle user login
-  const handleUserLogin = (email) => {
-    setIsUserLoggedIn(true);
-    localStorage.setItem('userLoggedIn', 'true');
-    localStorage.setItem('userEmail', email); // Store user email for session
-  };
-
-  // Handle user logout
-  const handleUserLogout = () => {
-    setIsUserLoggedIn(false);
-    localStorage.setItem('userLoggedIn', 'false');
-    localStorage.removeItem('userEmail'); // Clear user email on logout
-  };
+  const { isUserLoggedIn, isAdminLoggedIn, isVendorLoggedIn } = useAuth();
 
   return (
     <Router>
-      {/* Dynamic Navbar switch based on login */}
-      {isUserLoggedIn ? (
-        <UserNavbar onLogout={handleUserLogout} />
-      ) : isAdminLoggedIn ? (
-        <AdminNavbar onLogout={handleAdminLogout} />
-      ) : (
-        <Navbar />
-      )}
+      <ScrollToTop />
+      <AppNavbar />
 
-      {/* Application Routes */}
       <Routes>
+        {/* ─── Public Routes ────────────────────────────────────── */}
         <Route path="/" element={<Hero />} />
         <Route path="/collection" element={<Collection isLoggedIn={isUserLoggedIn} />} />
         <Route path="/shop" element={<Collection isLoggedIn={isUserLoggedIn} />} />
-        <Route path="/AdminLogin" element={<AdminLogin onAdminLogin={handleAdminLogin} />} />
-        <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/UserLogin" element={<UserLogin onLogin={handleUserLogin} />} />
-        <Route path="/UserProfile" element={<UserProfile />} />
+        <Route path="/product/:id" element={<SingleProduct />} />
         <Route path="/AboutUs" element={<AboutUs />} />
-        <Route path="/admin/*" element={<Dashboard />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/old-orders" element={<OldOrders />} />
-        <Route path="/report" element={<Report />} />
 
-        {/* ✅ Product Management Routes */}
-        <Route path="/manage-products" element={<ManageProducts />} />
+        {/* ─── User Auth ────────────────────────────────────────── */}
+        <Route path="/UserLogin" element={<UserLogin />} />
+        <Route path="/UserProfile" element={<UserProfile />} />
 
-        {/* ✅ Placeholder for Users & Orders (to prevent future errors) */}
-        <Route path="/manage-users" element={<ManageUsers />} />
-        <Route path="/manage-orders" element={<ManageOrders />} />
-        <Route path="/inventory" element={<Inventory />} />
+        {/* ─── Admin Auth ───────────────────────────────────────── */}
+        <Route path="/AdminLogin" element={<AdminLogin />} />
+
+        {/* ─── Admin Protected Routes ───────────────────────────── */}
+        <Route path="/Dashboard" element={
+          <RoleProtectedRoute role="admin" redirectTo="/AdminLogin">
+            <AdminLayout><Dashboard /></AdminLayout>
+          </RoleProtectedRoute>
+        } />
+        <Route path="/manage-products" element={
+          <RoleProtectedRoute role="admin" redirectTo="/AdminLogin">
+            <AdminLayout><ManageProducts /></AdminLayout>
+          </RoleProtectedRoute>
+        } />
+        <Route path="/manage-users" element={
+          <RoleProtectedRoute role="admin" redirectTo="/AdminLogin">
+            <AdminLayout><ManageUsers /></AdminLayout>
+          </RoleProtectedRoute>
+        } />
+        <Route path="/manage-orders" element={
+          <RoleProtectedRoute role="admin" redirectTo="/AdminLogin">
+            <AdminLayout><ManageOrders /></AdminLayout>
+          </RoleProtectedRoute>
+        } />
+        <Route path="/manage-vendors" element={
+          <RoleProtectedRoute role="admin" redirectTo="/AdminLogin">
+            <AdminLayout><ManageVendors /></AdminLayout>
+          </RoleProtectedRoute>
+        } />
+        <Route path="/report" element={
+          <RoleProtectedRoute role="admin" redirectTo="/AdminLogin">
+            <AdminLayout><Report /></AdminLayout>
+          </RoleProtectedRoute>
+        } />
+        <Route path="/inventory" element={
+          <RoleProtectedRoute role="admin" redirectTo="/AdminLogin">
+            <AdminLayout><Inventory /></AdminLayout>
+          </RoleProtectedRoute>
+        } />
+
+        {/* ─── Vendor Routes ────────────────────────────────────── */}
+        <Route path="/vendor-register" element={<VendorRegister />} />
+        <Route path="/vendor-login" element={<VendorLogin />} />
+        <Route path="/vendor-dashboard" element={
+          <RoleProtectedRoute role="vendor" redirectTo="/vendor-login">
+            <VendorDashboard />
+          </RoleProtectedRoute>
+        } />
+        <Route path="/vendor-products" element={
+          <RoleProtectedRoute role="vendor" redirectTo="/vendor-login">
+            <VendorProducts />
+          </RoleProtectedRoute>
+        } />
+        <Route path="/vendor-orders" element={
+          <RoleProtectedRoute role="vendor" redirectTo="/vendor-login">
+            <VendorOrders />
+          </RoleProtectedRoute>
+        } />
+        <Route path="/vendor-profile" element={
+          <RoleProtectedRoute role="vendor" redirectTo="/vendor-login">
+            <VendorProfile />
+          </RoleProtectedRoute>
+        } />
       </Routes>
-      <Footer />
+
+      {/* Only show footer on non-vendor, non-admin pages */}
+      <AppFooter />
     </Router>
   );
 };

@@ -1,0 +1,470 @@
+/* ===================================================
+   VENDOR REGISTER — Attractive Split-Panel Design
+   Gradient: linear-gradient(90deg, #ff8a00, #e52e71)
+   =================================================== */
+
+/* ---------- Page Wrapper ---------- */
+.vendor-register-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff1eb 0%, #fce4ec 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+/* ---------- Outer Card ---------- */
+.vendor-register-card {
+  display: flex;
+  width: 100%;
+  max-width: 960px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow:
+    0 8px 32px rgba(229, 46, 113, 0.18),
+    0 2px 8px rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+/* ========== LEFT PANEL (branding) ========== */
+.register-left-panel {
+  flex: 0 0 300px;
+  background: linear-gradient(160deg, #ff8a00 0%, #e52e71 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* decorative blobs */
+.register-left-panel::before {
+  content: '';
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.10);
+  top: -60px;
+  left: -60px;
+}
+.register-left-panel::after {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  bottom: -50px;
+  right: -50px;
+}
+
+.panel-logo {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -1px;
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.panel-logo span {
+  opacity: 0.85;
+}
+
+.panel-tagline {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 36px;
+  position: relative;
+  z-index: 1;
+}
+
+.panel-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.panel-desc {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.80);
+  line-height: 1.6;
+  margin-bottom: 36px;
+  position: relative;
+  z-index: 1;
+}
+
+.panel-perks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.panel-perk {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  color: #fff;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+.perk-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* ========== RIGHT PANEL (form) ========== */
+.register-right-panel {
+  flex: 1;
+  padding: 44px 40px;
+  overflow-y: auto;
+  background: #fff;
+}
+
+/* -- Header -- */
+.register-header {
+  margin-bottom: 28px;
+}
+
+.register-header h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.register-header p {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* -- Error Banner -- */
+.error-banner {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+  padding: 11px 14px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+/* -- Form Grid -- */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-size: 0.82rem;
+  color: #374151;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.req {
+  color: #e52e71;
+  font-size: 0.9rem;
+}
+
+.optional {
+  color: #9ca3af;
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* -- Inputs & Textareas -- */
+.form-group input,
+.form-group textarea {
+  background: #fafafa;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 11px 14px;
+  color: #111827;
+  font-size: 0.93rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #e52e71;
+  box-shadow: 0 0 0 3px rgba(229, 46, 113, 0.12);
+  background: #fff8fb;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* -- Password Eye Toggle -- */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding-right: 42px; /* room for eye icon */
+}
+
+.eye-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  font-size: 1rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.eye-btn:hover {
+  color: #e52e71;
+}
+
+/* -- Submit Button -- */
+.btn-submit {
+  width: 100%;
+  margin-top: 24px;
+  padding: 15px;
+  background: linear-gradient(90deg, #ff8a00, #e52e71);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+  letter-spacing: 0.4px;
+  box-shadow: 0 6px 20px rgba(229, 46, 113, 0.35);
+  background-size: 200% auto;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-position: right center;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(229, 46, 113, 0.50);
+}
+
+.btn-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* -- Footer Links -- */
+.register-footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.register-footer p {
+  color: #6b7280;
+  font-size: 0.88rem;
+  margin: 5px 0;
+}
+
+.register-footer a {
+  background: linear-gradient(90deg, #ff8a00, #e52e71);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-decoration: none;
+  font-weight: 700;
+  transition: opacity 0.2s;
+}
+
+.register-footer a:hover {
+  opacity: 0.75;
+}
+
+/* ========== SUCCESS STATE ========== */
+.success-state {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.success-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.success-state h2 {
+  font-size: 1.8rem;
+  color: #111827;
+  margin-bottom: 14px;
+  font-weight: 800;
+}
+
+.success-state p {
+  color: #6b7280;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.success-state p strong {
+  color: #111827;
+}
+
+.success-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  padding: 12px 28px;
+  background: linear-gradient(90deg, #ff8a00, #e52e71);
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(229, 46, 113, 0.30);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(229, 46, 113, 0.45);
+}
+
+.btn-secondary {
+  padding: 12px 28px;
+  background: #f3f4f6;
+  color: #374151;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1.5px solid #e5e7eb;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .vendor-register-container {
+    padding: 0;
+    align-items: flex-start;
+  }
+
+  .vendor-register-card {
+    flex-direction: column;
+    border-radius: 0;
+    min-height: 100vh;
+    box-shadow: none;
+  }
+
+  .register-left-panel {
+    flex: none;
+    width: 100%;
+    padding: 32px 24px 28px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-align: left;
+    gap: 0;
+    border-radius: 0;
+  }
+
+  .register-left-panel::before,
+  .register-left-panel::after {
+    display: none;
+  }
+
+  .panel-logo,
+  .panel-tagline {
+    flex: 0 0 100%;
+    margin-bottom: 4px;
+  }
+
+  .panel-title {
+    font-size: 1.3rem;
+    flex: 0 0 100%;
+    margin-bottom: 6px;
+  }
+
+  .panel-desc {
+    display: none;
+  }
+
+  .panel-perks {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 0;
+  }
+
+  .panel-perk {
+    padding: 7px 12px;
+    font-size: 0.82rem;
+    flex: 0 1 auto;
+  }
+
+  .register-right-panel {
+    padding: 28px 20px 40px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .register-header h2 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .register-left-panel {
+    padding: 24px 16px 20px;
+  }
+
+  .register-right-panel {
+    padding: 20px 16px 36px;
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { FaShoppingCart, FaBox } from 'react-icons/fa'
+import { FaShoppingCart, FaBox, FaArrowLeft } from 'react-icons/fa'
 import './UserProfile.css'
 
 const UserProfile = () => {
@@ -40,6 +40,11 @@ const UserProfile = () => {
 
   return (
     <div className="profile-wrapper">
+      <div className="profile-header-actions">
+        <button className="profile-back-btn" onClick={() => navigate(-1)}>
+          <FaArrowLeft /> Back
+        </button>
+      </div>
       <div className="profile-card">
         <div className="profile-avatar">
           {userInfo ? userInfo.name.charAt(0) : "U"}
