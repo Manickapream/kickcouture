@@ -178,7 +178,7 @@ export const Payment = () => {
               <div className="pay-item" key={i}>
                 <div className="pay-item-img">
                   <img
-                    src={`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/${item.productId?.image}`}
+                    src={(item.productId?.image && item.productId?.image.startsWith('http')) ? item.productId?.image : `${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/${item.productId?.image}`}
                     alt={item.productId?.name}
                     onError={(e) => { e.target.style.display = "none"; }}
                   />

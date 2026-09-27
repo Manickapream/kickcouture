@@ -5,16 +5,7 @@ const path = require("path");
 const productController = require("../controllers/productController");
 const { requireAdmin, verifyToken } = require("../middleware/auth");
 
-// Multer storage setup
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-const upload = multer({ storage });
+const { uploadCloud: upload } = require("../config/cloudinary");
 
 // ─── Public Routes ────────────────────────────────────────────────────────────
 // Returns only active products for customer catalog

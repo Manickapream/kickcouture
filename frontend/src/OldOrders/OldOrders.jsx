@@ -104,7 +104,7 @@ export const OldOrders = () => {
                 {/* Product image */}
                 <div className="oo-card-img">
                   <img
-                    src={`${API_BASE}/${product.image}`}
+                    src={(product.image && product.image.startsWith('http')) ? product.image : `${API_BASE}/${product.image}`}
                     alt={product.name}
                     onError={(e) => { e.target.src = ""; }}
                   />

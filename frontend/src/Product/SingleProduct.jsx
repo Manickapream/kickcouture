@@ -254,7 +254,7 @@ const SingleProduct = () => {
             {allImages.map((img, idx) => (
               <img 
                 key={idx}
-                src={`${API_BASE}/${img}`}
+                src={(img && img.startsWith('http')) ? img : `${API_BASE}/${img}`}
                 alt="Thumbnail"
                 className={`sp-thumb ${activeImage === img ? 'active' : ''}`}
                 onClick={() => setActiveImage(img)}
@@ -262,7 +262,7 @@ const SingleProduct = () => {
             ))}
           </div>
           <div className="sp-main-image">
-            <img src={`${API_BASE}/${activeImage}`} alt={product.name} />
+            <img src={(activeImage && activeImage.startsWith('http')) ? activeImage : `${API_BASE}/${activeImage}`} alt={product.name} />
           </div>
         </div>
 
@@ -542,7 +542,7 @@ const SingleProduct = () => {
                 onClick={() => navigate(`/product/${rp._id}`)}
               >
                 <div className="sp-related-img-wrap">
-                  <img src={`${API_BASE}/${rp.image}`} alt={rp.name} />
+                  <img src={(rp.image && rp.image.startsWith('http')) ? rp.image : `${API_BASE}/${rp.image}`} alt={rp.name} />
                 </div>
                 <div className="sp-related-info">
                   <p className="sp-related-brand">{rp.brand}</p>

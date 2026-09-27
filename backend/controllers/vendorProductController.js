@@ -4,27 +4,9 @@ const Vendor = require("../models/Vendor");
 const multer = require("multer");
 const path = require("path");
 
-// ─── Multer config for vendor product images ──────────────────────────────────
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, "vendor_" + Date.now() + path.extname(file.originalname));
-  },
-});
+const { uploadCloud } = require("../config/cloudinary");
 
-const upload = multer({
-  storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit
-  fileFilter: (req, file, cb) => {
-    const allowed = /jpeg|jpg|png|webp|avif/;
-    const ext = allowed.test(path.extname(file.originalname).toLowerCase());
-    const mime = allowed.test(file.mimetype);
-    if (ext && mime) return cb(null, true);
-    cb(new Error("Only image files are allowed (jpeg, jpg, png, webp, avif)."));
-  },
-});
+const upload = uploadCloud;
 
 exports.upload = upload;
 
@@ -92,11 +74,11 @@ exports.addVendorProduct = async (req, res) => {
       return res.status(400).json({ message: "Stock count cannot be negative." });
     }
 
-    const imagePath = `uploads/${req.files['image'][0].filename}`;
+    const imagePath = req.files['image'][0].path;
     
     let additionalImagePaths = [];
     if (req.files['additionalImages']) {
-      additionalImagePaths = req.files['additionalImages'].map(file => `uploads/${file.filename}`);
+      additionalImagePaths = req.files['additionalImages'].map(file => file.path);
     }
 
     const product = new Product({
@@ -187,11 +169,11 @@ exports.updateVendorProduct = async (req, res) => {
     };
 
     if (req.files && req.files['image'] && req.files['image'][0]) {
-      updateData.image = `uploads/${req.files['image'][0].filename}`;
+      updateData.image = req.files['image'][0].path;
     }
     
     if (req.files && req.files['additionalImages']) {
-      updateData.additionalImages = req.files['additionalImages'].map(file => `uploads/${file.filename}`);
+      updateData.additionalImages = req.files['additionalImages'].map(file => file.path);
     }
 
     const updated = await Product.findByIdAndUpdate(id, updateData, { new: true });

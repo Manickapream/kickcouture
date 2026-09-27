@@ -71,7 +71,7 @@ function ManageOrders() {
                 const p = order.productId;
                 return (
                   <tr key={order._id}>
-                    <td><img className="product-thumb" src={`${API_BASE}/${p?.image}`} alt={p?.name} /></td>
+                    <td><img className="product-thumb" src={(p?.image && p?.image.startsWith('http')) ? p?.image : `${API_BASE}/${p?.image}`} alt={p?.name} /></td>
                     <td>{p?.name}</td>
                     <td>{order.email}</td>
                     <td>{p?.size}</td>

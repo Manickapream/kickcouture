@@ -3,11 +3,11 @@ const ProductModel = require("../models/Product");
 // ADD PRODUCT (Admin only — protected by route middleware)
 exports.addProduct = async (req, res) => {
   const { name, category, size, brand, gender, price, desc, stockStatus, count, color, originalPrice, manufacturedBy, countryOfOrigin, consumerComplaints, vendorId } = req.body;
-  const imagePath = (req.files && req.files['image'] && req.files['image'][0]) ? `uploads/${req.files['image'][0].filename}` : null;
+  const imagePath = (req.files && req.files['image'] && req.files['image'][0]) ? req.files['image'][0].path : null;
   
   let additionalImagePaths = [];
   if (req.files && req.files['additionalImages']) {
-    additionalImagePaths = req.files['additionalImages'].map(file => `uploads/${file.filename}`);
+    additionalImagePaths = req.files['additionalImages'].map(file => file.path);
   }
 
   if (!imagePath) {
@@ -92,11 +92,11 @@ exports.updateProduct = async (req, res) => {
   try {
     const updateData = { ...req.body };
     if (req.files && req.files['image'] && req.files['image'][0]) {
-      updateData.image = `uploads/${req.files['image'][0].filename}`;
+      updateData.image = req.files['image'][0].path;
     }
     
     if (req.files && req.files['additionalImages']) {
-      updateData.additionalImages = req.files['additionalImages'].map(file => `uploads/${file.filename}`);
+      updateData.additionalImages = req.files['additionalImages'].map(file => file.path);
     }
 
     // Validate price if provided

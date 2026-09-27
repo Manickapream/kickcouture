@@ -97,7 +97,7 @@ const VendorOrders = () => {
                 
                 <div className="order-product">
                   {order.product?.image && (
-                    <img className="order-img" src={`${API_BASE}/${order.product.image}`} alt={order.product?.name} />
+                    <img className="order-img" src={(order.product.image && order.product.image.startsWith('http')) ? order.product.image : `${API_BASE}/${order.product.image}`} alt={order.product?.name} />
                   )}
                   <div className="order-details">
                     <h3>{order.product?.name || 'Unknown Product'}</h3>

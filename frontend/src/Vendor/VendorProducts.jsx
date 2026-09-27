@@ -267,7 +267,7 @@ const VendorProducts = () => {
             {products.map(p => (
               <div key={p._id} className="product-card">
                 <div className="product-img-wrap">
-                  <img src={`${API_BASE}/${p.image}`} alt={p.name} />
+                  <img src={(p.image && p.image.startsWith('http')) ? p.image : `${API_BASE}/${p.image}`} alt={p.name} />
                   <span className={`status-badge ${p.status}`}>{p.status}</span>
                 </div>
                 <div className="product-info">

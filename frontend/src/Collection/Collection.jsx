@@ -156,7 +156,7 @@ export const Collection = () => {
                   {product.isOnSale && <span className="flash-sale-tag">FLASH SALE</span>}
                 </div>
                 <div className="image-container">
-                  <img src={`${API_BASE}/${product.image}`} alt={product.name} />
+                  <img src={(product.image && product.image.startsWith('http')) ? product.image : `${API_BASE}/${product.image}`} alt={product.name} />
                 </div>
                 <div className="product-info">
                   <p className="product-brand">{product.brand}</p>

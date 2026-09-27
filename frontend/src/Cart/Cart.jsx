@@ -123,7 +123,7 @@ export const Cart = () => {
                 return (
                   <div className="cart-item" key={order._id}>
                     <div className="cart-item-image">
-                      <img src={`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}/${product.image}`} alt={product.name} />
+                      <img src={(product.image && product.image.startsWith('http')) ? product.image : `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}/${product.image}`} alt={product.name} />
                     </div>
                     <div className="cart-item-details">
                       <h1>{product.name}</h1>

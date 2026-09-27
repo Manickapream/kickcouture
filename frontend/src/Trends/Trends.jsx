@@ -73,7 +73,7 @@ const Trends = ({ isLoggedIn }) => {
               <span className="trends-flash-sale">FLASH SALE</span>
             </div>
             <div className="trends-card-image-wrapper">
-              <img src={`${API_BASE}/` + product.image} alt={product.name} />
+              <img src={(product.image && product.image.startsWith('http')) ? product.image : `${API_BASE}/${product.image}`} alt={product.name} />
             </div>
             <div className="trends-product-info">
               <p className="trends-brand">{product.brand}</p>

@@ -98,7 +98,7 @@ const BestSelling = ({ isLoggedIn }) => {
                 <FaHeart />
               </button>
               <img
-                src={`${API_BASE}/` + product.image}
+                src={(product.image && product.image.startsWith('http')) ? product.image : `${API_BASE}/${product.image}`}
                 alt={product.name}
                 onClick={() => navigate(`/product/${product._id}`)}
               />

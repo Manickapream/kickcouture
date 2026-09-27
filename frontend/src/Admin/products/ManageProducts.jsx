@@ -287,7 +287,7 @@ function ManageProduct() {
                   {vendors.find(v => v._id === product.vendorId)?.businessName || 'Vendor Product'}
                 </div>
               )}
-              <img src={`${API_BASE}/${product.image}`} alt={product.name} />
+              <img src={(product.image && product.image.startsWith('http')) ? product.image : `${API_BASE}/${product.image}`} alt={product.name} />
 
               <div className="product-info">
                 <h1>{product.name}</h1> 
