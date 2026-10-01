@@ -4,6 +4,7 @@
   "description": "Monorepo for KickCouture: Vite + React frontend and Node + Express backend",
   "main": "backend/index.js",
   "scripts": {
+    "postinstall": "npm install --prefix backend",
     "start": "npm start --prefix backend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "cd backend && npm run dev",
