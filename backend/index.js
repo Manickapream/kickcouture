@@ -7,14 +7,14 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const PORT = process.env.PORT || 5000;
 
-// Security Middleware
+
 app.use(helmet({
   crossOriginResourcePolicy: false, // Allow images to load cross-origin
 }));
 app.use(cors({
   origin: [
-    process.env.ALLOWED_ORIGIN, 
-    'http://localhost:5173', 
+    process.env.ALLOWED_ORIGIN,
+    'http://localhost:5173',
     'https://kickcouture.vercel.app'
   ].filter(Boolean),
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
