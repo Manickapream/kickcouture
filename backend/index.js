@@ -39,6 +39,10 @@ const reportRoutes = require("./routes/reportRoutes");
 const uploadsDir = require("path").join(__dirname, "uploads");
 
 // Route Definitions
+app.get("/", (req, res) => {
+  res.send("KickCouture API is running successfully! 🚀");
+});
+
 app.use("/api/admin", adminRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/user", userRoutes);
