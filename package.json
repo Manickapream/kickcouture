@@ -2,7 +2,7 @@
   "name": "kickcouture",
   "version": "1.0.0",
   "description": "Monorepo for KickCouture: Vite + React frontend and Node + Express backend",
-  "main": "eslint.config.js",
+  "main": "backend/index.js",
   "scripts": {
     "start": "npm start --prefix backend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
