@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import api from '../api/axiosConfig'
 import { FaShoppingCart, FaBox, FaArrowLeft } from 'react-icons/fa'
 import './UserProfile.css'
 
@@ -18,7 +18,7 @@ const UserProfile = () => {
 
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/user");
+        const res = await api.get("/api/user");
         const users = res.data.users;
         const currentUser = users.find(u => u.email === userEmail);
         if (currentUser) {
